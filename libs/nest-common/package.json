@@ -1,0 +1,13 @@
+{
+  "name": "@repo/nest-common",
+  "exports": {
+    "./*": {}
+  },
+  "scripts": {},
+  "dependencies": {
+    "@nestjs/config": "^4.0.4"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*"
+  }
+}
