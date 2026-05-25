@@ -1,6 +1,7 @@
-import { registerAs } from "@nestjs/config";
+import { registerAs } from '@nestjs/config';
 
-export const appCommonConfig = registerAs("appCommon", () => ({
+export const appCommonConfig = registerAs('appCommon', () => ({
+  timezone: process.env.tz,
   nodeEnv: process.env.NODE_ENV,
   frontendUrl: process.env.FRONTEND_URL,
 }));

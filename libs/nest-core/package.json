@@ -3,5 +3,9 @@
   "exports": {
     "./*": {}
   },
-  "scripts": {}
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*"
+  }
 }
