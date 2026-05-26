@@ -13,13 +13,16 @@ import { z } from 'zod';
 export const validationSchema = z.object({
   TZ: z.string(),
   NODE_ENV: z.string(),
-  FRONTEND_URL: z.string()
-})
+  FRONTEND_URL: z.string(),
+});
 
 export function validate(config: Record<string, unknown>) {
   const result = validationSchema.safeParse(config);
-  if(!result.success) {
-    console.error('❌ Invalid environment variables:', result.error.format());
+  if (!result.success) {
+    console.error(
+      '❌ Invalid environment variables:',
+      z.treeifyError(result.error),
+    );
     throw new Error('Invalid environment variables');
   }
   return result.data;

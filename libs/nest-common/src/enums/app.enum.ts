@@ -9,3 +9,8 @@ export enum NodeEnv {
   Staging = 'staging',
   Production = 'production',
 }
+
+export enum BodyContentType {
+  Json = 'application/json',
+  MultipartFormData = 'multipart/form-data',
+}

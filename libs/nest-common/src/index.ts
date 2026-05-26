@@ -1,6 +1,7 @@
 export * from './dtos';
 export * from './enums';
 export * from './config';
+export * from './errors';
 export * from './constants';
 export * from './utilities';
 export * from './decorators';
