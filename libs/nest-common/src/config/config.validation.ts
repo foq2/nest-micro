@@ -14,6 +14,10 @@ export const validationSchema = z.object({
   TZ: z.string(),
   NODE_ENV: z.string(),
   FRONTEND_URL: z.string(),
+  AUTH_SERVICE_HOST: z.string(),
+  AUTH_SERVICE_PORT: z.string(),
+  USER_SERVICE_HOST: z.string(),
+  USER_SERVICE_PORT: z.string(),
 });
 
 export function validate(config: Record<string, unknown>) {

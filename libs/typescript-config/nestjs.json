@@ -2,8 +2,11 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "./base.json",
   "compilerOptions": {
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "types": ["node"],
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "isolatedModules": false
   }
 }
