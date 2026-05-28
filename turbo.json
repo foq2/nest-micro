@@ -5,7 +5,7 @@
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**"]
+      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
     },
     "lint": {
       "dependsOn": ["^lint"]
@@ -15,7 +15,20 @@
     },
     "dev": {
       "cache": false,
-      "persistent": true
+      "persistent": true,
+      "dependsOn": [],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"]
     }
-  }
+  },
+  "globalEnv": [
+    "TZ",
+    "NODE_ENV",
+    "FRONTEND_URL",
+    "AUTH_SERVICE_HOST",
+    "AUTH_SERVICE_PORT",
+    "AUTH_SERVICE_URL",
+    "USER_SERVICE_HOST",
+    "USER_SERVICE_PORT",
+    "USER_SERVICE_URL"
+  ]
 }

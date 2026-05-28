@@ -10,23 +10,29 @@
 // zod
 import { z } from 'zod';
 
-export const validationSchema = z.object({
-  TZ: z.string(),
-  NODE_ENV: z.string(),
-  FRONTEND_URL: z.string(),
-  AUTH_SERVICE_HOST: z.string(),
-  AUTH_SERVICE_PORT: z.string(),
-  USER_SERVICE_HOST: z.string(),
-  USER_SERVICE_PORT: z.string(),
-});
+export const validationSchema = z
+  .object({
+    // TZ: z.string(),
+    // NODE_ENV: z.enum(NodeEnv),
+    FRONTEND_URL: z.url(),
+    AUTH_SERVICE_HOST: z.string(),
+    AUTH_SERVICE_PORT: z.string(), // z.coerce.number(),
+    AUTH_SERVICE_URL: z.string(),
+    USER_SERVICE_HOST: z.string(),
+    USER_SERVICE_PORT: z.string(),
+    USER_SERVICE_URL: z.string(),
+    API_GATEWAY_PORT: z.string(),
+  })
+  .loose();
 
 export function validate(config: Record<string, unknown>) {
   const result = validationSchema.safeParse(config);
+  console.error('process.cwd', process.cwd());
   if (!result.success) {
-    console.error(
-      '❌ Invalid environment variables:',
-      z.treeifyError(result.error),
-    );
+    result.error.issues.forEach((issue) => {
+      console.error(`${issue.path.join('.')}: ${issue.message}`);
+    });
+    console.error('');
     throw new Error('Invalid environment variables');
   }
   return result.data;

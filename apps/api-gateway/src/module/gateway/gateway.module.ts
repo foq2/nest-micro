@@ -1,9 +1,11 @@
 import { Inject, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { microserviceConfiguration } from '@repo/nest-common';
-import { ConfigType } from '@nestjs/config';
+import { ConfigModule, ConfigType } from '@nestjs/config';
 
-@Module({})
+@Module({
+  imports: [ConfigModule.forFeature(microserviceConfiguration)],
+})
 export class GatewayModule implements NestModule {
   constructor(
     @Inject(microserviceConfiguration.KEY)
@@ -15,11 +17,21 @@ export class GatewayModule implements NestModule {
     consumer
       .apply(
         createProxyMiddleware({
-          target: '',
+          target: this.microserviceConfig.authService.host,
           changeOrigin: true,
           pathRewrite: { '^/auth-service': '' },
         }),
       )
       .forRoutes('auth-service');
+
+    consumer
+      .apply(
+        createProxyMiddleware({
+          target: this.microserviceConfig.userService.url,
+          changeOrigin: true,
+          pathRewrite: { '^/user-service': '' },
+        }),
+      )
+      .forRoutes('user-service');
   }
 }
