@@ -21,7 +21,7 @@ export const validationSchema = z
     USER_SERVICE_HOST: z.string(),
     USER_SERVICE_PORT: z.string(),
     USER_SERVICE_URL: z.string(),
-    API_GATEWAY_PORT: z.string(),
+    // API_GATEWAY_PORT: z.string(),
   })
   .loose();
 

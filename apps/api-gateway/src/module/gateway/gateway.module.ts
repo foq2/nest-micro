@@ -17,7 +17,7 @@ export class GatewayModule implements NestModule {
     consumer
       .apply(
         createProxyMiddleware({
-          target: this.microserviceConfig.authService.host,
+          target: this.microserviceConfig.authService.url,
           changeOrigin: true,
           pathRewrite: { '^/auth-service': '' },
         }),
