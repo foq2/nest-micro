@@ -1,5 +1,5 @@
 import { Inject, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { createProxyMiddleware } from 'http-proxy-middleware';
+import { createProxyMiddleware, fixRequestBody } from 'http-proxy-middleware';
 import { microserviceConfiguration } from '@repo/nest-common';
 import { ConfigModule, ConfigType } from '@nestjs/config';
 
@@ -19,6 +19,13 @@ export class GatewayModule implements NestModule {
         createProxyMiddleware({
           target: this.microserviceConfig.authService.url,
           changeOrigin: true,
+          on: {
+            proxyReq: (proxyReq, req: any) => {
+              fixRequestBody(proxyReq, req);
+
+              proxyReq.setHeader('x-gateway-secret', '123');
+            },
+          },
           pathRewrite: { '^/auth-service': '' },
         }),
       )
@@ -30,6 +37,13 @@ export class GatewayModule implements NestModule {
           target: this.microserviceConfig.userService.url,
           changeOrigin: true,
           pathRewrite: { '^/user-service': '' },
+          on: {
+            proxyReq: (proxyReq, req: any) => {
+              fixRequestBody(proxyReq, req);
+
+              proxyReq.setHeader('x-gateway-secret', '123');
+            },
+          },
         }),
       )
       .forRoutes('user-service');
