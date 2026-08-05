@@ -4,8 +4,10 @@
     "outDir": "dist",
     "baseUrl": "./",
     "rootDir": "src",
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "mikro-orm.config.ts"],
   "exclude": ["node_modules", "dist"]
 }
