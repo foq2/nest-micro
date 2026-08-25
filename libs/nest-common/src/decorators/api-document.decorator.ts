@@ -67,7 +67,7 @@ type ApiDocumentOption = {
  *  - ApiParam
  *  - ApiOperation
  **/
-export function SwaggerDocument(options: ApiDocumentOption) {
+export function ApiDocument(options: ApiDocumentOption) {
   const {
     body,
     tags,

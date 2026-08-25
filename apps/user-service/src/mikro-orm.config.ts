@@ -6,7 +6,7 @@ import path from 'path';
 export default defineConfig({
   driver: PostgreSqlDriver,
   host: process.env.DB_HOST || 'localhost',
-  port: +process.env.DB_PORT || 5432,
+  port: process.env.DB_PORT ? +process.env.DB_PORT : 5432,
   dbName: process.env.DB_NAME || 'user',
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,

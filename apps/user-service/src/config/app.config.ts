@@ -1,6 +1,5 @@
 import { registerAs } from '@nestjs/config';
 
 export const appConfiguration = registerAs('app', () => ({
-  appPort: process.env.PORT ? +process.env.PORT : 3000,
-  appName: process.env.APP_NAME || 'Auth Service',
+  port: process.env.PORT || 3000,
 }));

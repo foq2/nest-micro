@@ -26,6 +26,9 @@ coverage
 out/
 build
 dist
+*.tsbuildinfo
+**/tsconfig.tsbuildinfo
+**/tsconfig.build.tsbuildinfo
 
 
 # Debug
@@ -36,5 +39,11 @@ yarn-error.log*
 # Misc
 .DS_Store
 *.pem
+
+# OS & IDE
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
 
 .idea
