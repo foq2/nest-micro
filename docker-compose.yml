@@ -1,10 +1,9 @@
 services:
   db:
     container_name: nest_micro_db
-    image: postgres:16-alpine
-    restart: unless-stopped
-#    logging:
-#      driver: json-file
+    extends:
+      file: .docker/compose/postgresql/postgresql.yml
+      service: postgresql
     ports:
       - '5554:5432'
     volumes:
@@ -17,3 +16,8 @@ services:
       POSTGRES_DB: ${DEFAULT_PG_DATABASE}
     env_file:
       - .env
+
+
+networks:
+  nest-micro-network:
+    driver: bridge
