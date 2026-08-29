@@ -7,10 +7,10 @@
     "dev": "tsc -p tsconfig.json --watch"
   },
   "dependencies": {
-    "@nestjs/common": "^11.0.1",
-    "@nestjs/config": "^4.0.4",
-    "@nestjs/core": "^11.0.1",
-    "@nestjs/swagger": "^11.4.4",
+    "@nestjs/common": "11.0.1",
+    "@nestjs/config": "4.0.4",
+    "@nestjs/core": "11.0.1",
+    "@nestjs/swagger": "11.4.4",
     "@scalar/nestjs-api-reference": "^1.2.16",
     "@types/lodash": "^4.17.24",
     "chalk": "^6.0.0",

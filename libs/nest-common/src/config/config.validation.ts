@@ -27,7 +27,6 @@ export const validationSchema = z
 
 export function validate(config: Record<string, unknown>) {
   const result = validationSchema.safeParse(config);
-  console.error('process.cwd', process.cwd());
   if (!result.success) {
     result.error.issues.forEach((issue) => {
       console.error(`${issue.path.join('.')}: ${issue.message}`);

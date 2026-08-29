@@ -1,19 +1,38 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigType } from '@nestjs/config';
 import { appConfiguration } from '../config';
-import { appCommonConfiguration, LoggerModule } from '@repo/nest-common';
+import {
+  appCommonConfiguration,
+  LoggerModule,
+  MicroserviceName,
+  tcpConfiguration,
+  validate,
+} from '@repo/nest-common';
+import { Transport } from '@nestjs/microservices';
+import { MicroserviceModule } from '@repo/nest-core';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       cache: true,
-      validationOptions: { abortEarly: false },
-      load: [appConfiguration, appCommonConfiguration],
+      validate,
+      // validationOptions: { abortEarly: false },
+      load: [appConfiguration, appCommonConfiguration, tcpConfiguration],
     }),
     LoggerModule,
+    MicroserviceModule.registerAsync([
+      {
+        name: MicroserviceName.UserService,
+        transport: Transport.TCP,
+        useFactory: (config: ConfigType<typeof tcpConfiguration>) => {
+          return config[MicroserviceName.UserService];
+        },
+        inject: [tcpConfiguration.KEY],
+      },
+    ]),
   ],
   controllers: [AppController],
   providers: [AppService],

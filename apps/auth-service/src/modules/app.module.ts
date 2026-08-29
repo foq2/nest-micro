@@ -3,7 +3,11 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth';
 import { ConfigModule } from '@nestjs/config';
-import { appCommonConfiguration, LoggerModule } from '@repo/nest-common';
+import {
+  appCommonConfiguration,
+  LoggerModule,
+  validate,
+} from '@repo/nest-common';
 import { appConfiguration } from '../config';
 
 @Module({
@@ -12,7 +16,8 @@ import { appConfiguration } from '../config';
     ConfigModule.forRoot({
       isGlobal: true,
       cache: true,
-      validationOptions: { abortEarly: false },
+      validate,
+      // validationOptions: { abortEarly: false },
       load: [appCommonConfiguration, appConfiguration],
     }),
     LoggerModule,
