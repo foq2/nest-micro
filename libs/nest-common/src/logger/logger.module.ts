@@ -1,9 +1,10 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { LoggerModule as PinoLoggerModule } from 'nestjs-pino';
 import { NodeEnv } from '../enums';
 import { appCommonConfiguration } from '../config';
 import { ConfigModule, ConfigType } from '@nestjs/config';
 
+@Global()
 @Module({
   imports: [
     PinoLoggerModule.forRootAsync({
@@ -23,7 +24,7 @@ import { ConfigModule, ConfigType } from '@nestjs/config';
                 }
               : undefined,
           level: config.logLevel,
-          autoLogging: true,
+          autoLogging: false,
         },
       }),
     }),

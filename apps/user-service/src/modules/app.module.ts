@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule, ConfigType } from '@nestjs/config';
 import { appConfiguration } from '../config';
 import {
+  AllExceptionFilter,
   appCommonConfiguration,
   LoggerModule,
   MicroserviceName,
@@ -12,6 +13,8 @@ import {
 } from '@repo/nest-common';
 import { Transport } from '@nestjs/microservices';
 import { MicroserviceModule } from '@repo/nest-core';
+import { UserModule } from './user';
+import { APP_FILTER } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -33,8 +36,12 @@ import { MicroserviceModule } from '@repo/nest-core';
         inject: [tcpConfiguration.KEY],
       },
     ]),
+    UserModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    { provide: APP_FILTER, useClass: AllExceptionFilter },
+  ],
 })
 export class AppModule {}

@@ -13,7 +13,7 @@ import {
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { bufferLogs: true });
 
   const { appPort, appName } = app.get<ConfigType<typeof appConfiguration>>(
     appConfiguration.KEY,

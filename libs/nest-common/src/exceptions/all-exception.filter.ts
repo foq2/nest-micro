@@ -4,22 +4,20 @@ import {
   ExceptionFilter,
   HttpException,
   HttpStatus,
-  Inject,
-  Logger,
 } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
 import _ from 'lodash';
 import { throwError } from 'rxjs';
 import { HttpErrorResponseDto } from '../dtos';
+import { CommonLogger } from '../logger';
 
 @Catch()
 export class AllExceptionFilter implements ExceptionFilter {
   constructor(
     private readonly httpAdapterHost: HttpAdapterHost,
-    @Inject()
     private readonly configService: ConfigService,
-    private readonly logger = new Logger(AllExceptionFilter.name),
+    private readonly logger: CommonLogger,
   ) {}
 
   catch(exception: unknown, host: ArgumentsHost) {
@@ -55,6 +53,12 @@ export class AllExceptionFilter implements ExceptionFilter {
         },
         exceptionRes,
       );
+
+      console.log('log trc', exception);
+
+      this.logger.error(`HttpException caught: ${exception?.message}`, {
+        context: 'AllExceptionFilter.catch',
+      });
     } else {
       this.logger.error({
         context: `AllExceptionFilter.catch`,
@@ -85,8 +89,8 @@ export class AllExceptionFilter implements ExceptionFilter {
       httpAdapter.reply(ctx.getResponse(), errorData, httpStatus);
     } else {
       this.logger.warn('Response already sent, skipping error response', {
-        url: req.url,
-        method: req.method,
+        url: req?.url,
+        method: req?.method,
       });
     }
   }
