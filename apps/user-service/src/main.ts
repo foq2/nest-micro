@@ -30,10 +30,13 @@ async function bootstrap() {
     ConfigType<typeof tcpConfiguration>
   >(tcpConfiguration.KEY);
 
-  app.connectMicroservice<MicroserviceOptions>({
-    transport: Transport.TCP,
-    options: userTcpOption,
-  });
+  app.connectMicroservice<MicroserviceOptions>(
+    {
+      transport: Transport.TCP,
+      options: userTcpOption,
+    },
+    { inheritAppConfig: true },
+  );
 
   await app.startAllMicroservices();
 

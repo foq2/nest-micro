@@ -4,20 +4,13 @@ import {
   Module,
   Provider,
 } from '@nestjs/common';
-import { ClientProxyFactory, Transport } from '@nestjs/microservices';
-import { MicroserviceName } from '@repo/nest-common';
+import { ClientProxyFactory } from '@nestjs/microservices';
 import { MS_INJECTION_TOKEN } from './microservice.constant';
+import { MicroserviceClient } from './microservice.interface';
 
 @Module({})
 export class MicroserviceModule {
-  static registerAsync(
-    clients: {
-      name: MicroserviceName;
-      transport: Transport;
-      useFactory: any;
-      inject: any;
-    }[],
-  ): DynamicModule {
+  static registerAsync(clients: MicroserviceClient[]): DynamicModule {
     const asyncProviders: Provider[] = clients.map((client) => ({
       provide: `${client.name}_${client.transport}_ASYNC_CONFIG`,
       useFactory: client.useFactory,

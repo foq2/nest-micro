@@ -1,6 +1,5 @@
 import { INestApplication, LoggerService } from '@nestjs/common';
 import { NodeEnv } from '../enums';
-import chalk from 'chalk';
 
 interface LogBootstrapOptions {
   nodeEnv: NodeEnv;

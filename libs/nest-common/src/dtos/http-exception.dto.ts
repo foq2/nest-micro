@@ -1,6 +1,6 @@
 import { DtoField } from '../decorators';
 
-export class HttpErrorResponseDto {
+export class CommonErrorResponseDto {
   @DtoField()
   statusCode: number;
 
@@ -12,6 +12,9 @@ export class HttpErrorResponseDto {
 
   @DtoField()
   errorCode: string;
+
+  @DtoField()
+  errorService: string;
 
   @DtoField()
   message: string;

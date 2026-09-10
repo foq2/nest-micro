@@ -3,7 +3,11 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { GatewayModule } from './gateway';
 import { ConfigModule } from '@nestjs/config';
-import { appCommonConfiguration, validate } from '@repo/nest-common';
+import {
+  appCommonConfiguration,
+  LoggerModule,
+  validate,
+} from '@repo/nest-common';
 import { appConfiguration } from '../config';
 
 @Module({
@@ -19,6 +23,7 @@ import { appConfiguration } from '../config';
       // }
       load: [appCommonConfiguration, appConfiguration],
     }),
+    LoggerModule,
   ],
   controllers: [AppController],
   providers: [AppService],

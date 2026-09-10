@@ -1,23 +1,29 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './module/app.module';
-import { ConfigService } from '@nestjs/config';
-
-// === ĐOẠN CODE KIỂM TRA CHẮC CHẮN ===
-console.log('=============================================');
-console.log('🔍 THƯ MỤC LÀM VIỆC HIỆN TẠI (CWD):', process.cwd());
-console.log('🌍 BIẾN TỪ ROOT (SHARED_GLOBAL_VAR):', process.env.FRONTEND_URL);
-console.log(
-  '📦 BIẾN RIÊNG TRONG SERVICE (MY_SERVICE_VAR):',
-  process.env.API_GATEWAY_PORT,
-);
-console.log('=============================================');
+import { ConfigType } from '@nestjs/config';
+import {
+  appCommonConfiguration,
+  CommonLogger,
+  logBootstrapInfo,
+} from '@repo/nest-common';
+import { appConfiguration } from './config';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  const configService: ConfigService = await app.get(ConfigService);
+  const app = await NestFactory.create(AppModule, { bufferLogs: true });
 
-  const port = configService.get<string>('app.port');
-  await app.listen(port ?? 3000);
-  console.log('App listening on port ' + port);
+  const { appPort } = app.get<ConfigType<typeof appConfiguration>>(
+    appConfiguration.KEY,
+  );
+
+  const { nodeEnv } = app.get<ConfigType<typeof appCommonConfiguration>>(
+    appCommonConfiguration.KEY,
+  );
+
+  const logger = app.get(CommonLogger);
+  app.useLogger(logger);
+
+  await app.listen(appPort);
+
+  logBootstrapInfo(app, { appPort, logger, nodeEnv });
 }
 bootstrap();

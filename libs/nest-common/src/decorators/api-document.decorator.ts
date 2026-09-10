@@ -20,7 +20,7 @@ import {
 } from '@nestjs/swagger';
 import { CursorPaginationResponseDto, PaginationResponseDto } from '../dtos';
 import { BodyContentType } from '../enums';
-import { HttpErrorResponseDto } from '../dtos';
+import { CommonErrorResponseDto } from '../dtos';
 import _ from 'lodash';
 
 type SwaggerApiResponseOptions = ApiResponseOptions & {
@@ -85,7 +85,7 @@ export function ApiDocument(options: ApiDocumentOption) {
     ApiResponse({
       status: HttpStatus.INTERNAL_SERVER_ERROR,
       description: 'Oops, something went wrong',
-      type: HttpErrorResponseDto,
+      type: CommonErrorResponseDto,
     }),
     ...(contentType?.length ? [ApiConsumes(...contentType)] : []),
     ...(tags?.length ? [ApiTags(...tags)] : []),

@@ -4,8 +4,8 @@ import { AppService } from './app.service';
 import { ConfigModule, ConfigType } from '@nestjs/config';
 import { appConfiguration } from '../config';
 import {
-  AllExceptionFilter,
   appCommonConfiguration,
+  HttpExceptionFilter,
   LoggerModule,
   MicroserviceName,
   tcpConfiguration,
@@ -26,22 +26,22 @@ import { APP_FILTER } from '@nestjs/core';
       load: [appConfiguration, appCommonConfiguration, tcpConfiguration],
     }),
     LoggerModule,
-    MicroserviceModule.registerAsync([
-      {
-        name: MicroserviceName.UserService,
-        transport: Transport.TCP,
-        useFactory: (config: ConfigType<typeof tcpConfiguration>) => {
-          return config[MicroserviceName.UserService];
-        },
-        inject: [tcpConfiguration.KEY],
-      },
-    ]),
+    // MicroserviceModule.registerAsync([
+    //   {
+    //     name: MicroserviceName.UserService,
+    //     transport: Transport.TCP,
+    //     useFactory: (config: ConfigType<typeof tcpConfiguration>) => {
+    //       return config[MicroserviceName.UserService];
+    //     },
+    //     inject: [tcpConfiguration.KEY],
+    //   },
+    // ]),
     UserModule,
   ],
   controllers: [AppController],
   providers: [
     AppService,
-    { provide: APP_FILTER, useClass: AllExceptionFilter },
+    { provide: APP_FILTER, useClass: HttpExceptionFilter },
   ],
 })
 export class AppModule {}

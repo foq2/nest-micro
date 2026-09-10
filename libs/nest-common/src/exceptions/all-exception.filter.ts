@@ -9,7 +9,7 @@ import { HttpAdapterHost } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
 import _ from 'lodash';
 import { throwError } from 'rxjs';
-import { HttpErrorResponseDto } from '../dtos';
+import { CommonErrorResponseDto } from '../dtos';
 import { CommonLogger } from '../logger';
 
 @Catch()
@@ -33,7 +33,7 @@ export class AllExceptionFilter implements ExceptionFilter {
       ? exception.getStatus()
       : (exception as any)?.statusCode || HttpStatus.INTERNAL_SERVER_ERROR;
 
-    const errorData: Partial<HttpErrorResponseDto> = {
+    const errorData: Partial<CommonErrorResponseDto> = {
       statusCode: httpStatus,
       timestamps: new Date().toISOString(),
       path: req?.url,
@@ -53,8 +53,6 @@ export class AllExceptionFilter implements ExceptionFilter {
         },
         exceptionRes,
       );
-
-      console.log('log trc', exception);
 
       this.logger.error(`HttpException caught: ${exception?.message}`, {
         context: 'AllExceptionFilter.catch',
