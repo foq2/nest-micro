@@ -24,9 +24,8 @@
     "migration:down": "mikro-orm migration:down"
   },
   "dependencies": {
-    "@repo/nest-common": "workspace:*",
-    "@repo/nest-core": "workspace:*",
     "@mikro-orm/core": "^7.1.10",
+    "@mikro-orm/decorators": "7.1.10",
     "@mikro-orm/migrations": "^7.1.10",
     "@mikro-orm/nestjs": "^7.0.2",
     "@mikro-orm/postgresql": "^7.1.10",
@@ -35,6 +34,8 @@
     "@nestjs/core": "11.0.1",
     "@nestjs/microservices": "11.0.1",
     "@nestjs/platform-express": "11.0.1",
+    "@repo/nest-common": "workspace:*",
+    "@repo/nest-core": "workspace:*",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
   },

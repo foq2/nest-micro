@@ -7,11 +7,14 @@
     "dev": "tsc -p tsconfig.json --watch"
   },
   "dependencies": {
+    "@mikro-orm/decorators": "7.1.10",
     "@nestjs/common": "11.0.1",
     "@nestjs/config": "4.0.4",
     "@nestjs/microservices": "11.0.1",
     "@repo/nest-common": "workspace:*",
-    "rxjs": "^7.8.1"
+    "class-transformer": "^0.5.1",
+    "rxjs": "^7.8.1",
+    "uuid": "^14.0.2"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*"

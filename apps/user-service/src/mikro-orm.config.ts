@@ -2,15 +2,20 @@ import { defineConfig, PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { Migrator } from '@mikro-orm/migrations';
 import { NodeEnv } from '@repo/nest-common';
 import path from 'path';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 export default defineConfig({
   driver: PostgreSqlDriver,
-  host: process.env.DB_HOST || 'localhost',
-  port: process.env.DB_PORT ? +process.env.DB_PORT : 5432,
-  dbName: process.env.DB_NAME || 'user',
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  schema: process.env.DB_SCHEMA,
+  host: process.env.USER_SERVICE_DB_HOST || 'localhost',
+  port: process.env.USER_SERVICE_DB_PORT
+    ? +process.env.USER_SERVICE_DB_PORT
+    : 5432,
+  dbName: process.env.USER_SERVICE_DB_DATABASE || 'user',
+  user: process.env.USER_SERVICE_DB_USER,
+  password: process.env.USER_SERVICE_DB_PASSWORD,
+  schema: process.env.USER_SERVICE_DB_SCHEMA,
 
   debug: process.env.NODE_ENV != NodeEnv.Production,
 

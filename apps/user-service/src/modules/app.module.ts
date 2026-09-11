@@ -15,6 +15,8 @@ import { Transport } from '@nestjs/microservices';
 import { MicroserviceModule } from '@repo/nest-core';
 import { UserModule } from './user';
 import { APP_FILTER } from '@nestjs/core';
+import { MikroOrmModule } from '@mikro-orm/nestjs';
+import config from '../mikro-orm.config';
 
 @Module({
   imports: [
@@ -25,6 +27,7 @@ import { APP_FILTER } from '@nestjs/core';
       // validationOptions: { abortEarly: false },
       load: [appConfiguration, appCommonConfiguration, tcpConfiguration],
     }),
+    MikroOrmModule.forRoot(config),
     LoggerModule,
     // MicroserviceModule.registerAsync([
     //   {
