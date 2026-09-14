@@ -18,6 +18,9 @@
       "persistent": true,
       "dependsOn": [],
       "inputs": ["$TURBO_DEFAULT$", ".env*"]
+    },
+    "migration:up": {
+      "cache": false
     }
   },
   "globalEnv": [

@@ -8,6 +8,8 @@
   },
   "dependencies": {
     "@mikro-orm/decorators": "7.1.10",
+    "@mikro-orm/core": "7.1.10",
+    "@mikro-orm/postgresql": "7.1.10",
     "@nestjs/common": "11.0.1",
     "@nestjs/config": "4.0.4",
     "@nestjs/microservices": "11.0.1",

@@ -3,6 +3,7 @@ import { Migrator } from '@mikro-orm/migrations';
 import { NodeEnv } from '@repo/nest-common';
 import path from 'path';
 import * as dotenv from 'dotenv';
+import { BaseRepository } from '@repo/nest-core';
 
 dotenv.config();
 
@@ -16,6 +17,8 @@ export default defineConfig({
   user: process.env.USER_SERVICE_DB_USER,
   password: process.env.USER_SERVICE_DB_PASSWORD,
   schema: process.env.USER_SERVICE_DB_SCHEMA,
+
+  // entityRepository: BaseRepository,
 
   debug: process.env.NODE_ENV != NodeEnv.Production,
 

@@ -7,6 +7,7 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
+    "migration:up": "turbo run migration:up",
     "clean": "./clean.sh"
   },
   "devDependencies": {

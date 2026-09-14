@@ -2,5 +2,5 @@ import { DtoField } from '../decorators';
 
 export class SuccessResponseDto {
   @DtoField()
-  success: boolean;
+  success: boolean = true;
 }

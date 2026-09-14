@@ -13,7 +13,7 @@ services:
     environment:
       POSTGRES_USER: ${DEFAULT_PG_USER}
       POSTGRES_PASSWORD: ${DEFAULT_PG_PASSWORD}
-      POSTGRES_DB: ${DEFAULT_PG_DATABASE}
+#      POSTGRES_DB: ${DEFAULT_PG_DATABASE}
     env_file:
       - .env
 
