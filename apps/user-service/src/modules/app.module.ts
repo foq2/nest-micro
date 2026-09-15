@@ -1,18 +1,15 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigModule, ConfigType } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { appConfiguration } from '../config';
 import {
+  AllExceptionFilter,
   appCommonConfiguration,
-  HttpExceptionFilter,
   LoggerModule,
-  MicroserviceName,
   tcpConfiguration,
   validate,
 } from '@repo/nest-common';
-import { Transport } from '@nestjs/microservices';
-import { MicroserviceModule } from '@repo/nest-core';
 import { UserModule } from './user';
 import { APP_FILTER } from '@nestjs/core';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
@@ -44,7 +41,7 @@ import config from '../mikro-orm.config';
   controllers: [AppController],
   providers: [
     AppService,
-    { provide: APP_FILTER, useClass: HttpExceptionFilter },
+    { provide: APP_FILTER, useClass: AllExceptionFilter },
   ],
 })
 export class AppModule {}

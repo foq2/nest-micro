@@ -1,8 +1,6 @@
-import { Controller, HttpException, UseFilters } from '@nestjs/common';
+import { Controller, HttpException } from '@nestjs/common';
 import { MessagePattern, Transport } from '@nestjs/microservices';
-import { RpcExceptionFilter } from '@repo/nest-common';
 
-@UseFilters(RpcExceptionFilter)
 @Controller()
 export class UserConsumer {
   constructor() {}

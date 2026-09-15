@@ -4,8 +4,8 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth';
 import { ConfigModule, ConfigType } from '@nestjs/config';
 import {
+  AllExceptionFilter,
   appCommonConfiguration,
-  HttpExceptionFilter,
   LoggerModule,
   MicroserviceName,
   tcpConfiguration,
@@ -41,7 +41,7 @@ import { APP_FILTER } from '@nestjs/core';
   controllers: [AppController],
   providers: [
     AppService,
-    { provide: APP_FILTER, useClass: HttpExceptionFilter },
+    { provide: APP_FILTER, useClass: AllExceptionFilter },
   ],
 })
 export class AppModule {}
