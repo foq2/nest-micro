@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { UserRepository } from '../../data-access';
 import { EntityManager } from '@mikro-orm/postgresql';
 import { SuccessResponseDto } from '@repo/nest-common';
+import { CreateUserBodyDto, CreateUserResponseDto } from './dto';
 
 @Injectable()
 export class UserService {
@@ -14,16 +15,16 @@ export class UserService {
     return this.userRepo.findOneOrFail(userId);
   }
 
-  async createUser() {
-    const user = this.userRepo.create({
-      email: '123',
-      name: 'phong',
-      password: '123',
-      username: '123',
-    });
+  async createUser(body: CreateUserBodyDto): Promise<CreateUserResponseDto> {
+    const existingUser = await this.userRepo.findOne({ email: body.email });
+    if (existingUser) {
+      throw new ConflictException('User already exists');
+    }
+
+    const user = this.userRepo.create(body);
 
     await this.em.persist(user).flush();
 
-    return new SuccessResponseDto();
+    return { id: user.id };
   }
 }

@@ -1,12 +1,26 @@
 import { UserService } from './user.service';
-import { Controller, Post } from '@nestjs/common';
+import { Body, Controller, HttpStatus, Post } from '@nestjs/common';
+import { ApiDocument, SuccessResponseDto } from '@repo/nest-common';
+import { CreateUserBodyDto, CreateUserResponseDto } from './dto';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  async createUser() {
-    return this.userService.createUser();
+  @ApiDocument({
+    operation: {
+      operationId: 'createUser',
+      summary: 'Api createUser',
+    },
+    response: {
+      status: HttpStatus.CREATED,
+      type: SuccessResponseDto,
+    },
+  })
+  async createUser(
+    @Body() body: CreateUserBodyDto,
+  ): Promise<CreateUserResponseDto> {
+    return this.userService.createUser(body);
   }
 }

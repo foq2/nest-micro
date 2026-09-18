@@ -50,11 +50,11 @@ type ApiDocumentOption = {
   query?: ApiQueryOptions | ApiQueryOptions[];
   param?: ApiParamOptions | ApiParamOptions[];
   extra?: ApiDocumentExtraOption;
-  tags: string[];
+  tags?: string[];
 };
 
 /**
- * The `SwaggerApiDocument` function is a decorator factory that generates a set of decorators for a Swagger API document.
+ * The `ApiDocument` function is a decorator factory that generates a set of decorators for a Swagger API document.
  * It takes an `ApiDocumentOption` object as an argument and returns a function that applies the decorators to the target.
  * This function is used to simplify the process of defining API documentation for a route handler in a NestJS application.
  * It allows you to define the operation, response, parameters, query parameters, body, file types, and tags for the API in a single place.
@@ -100,6 +100,8 @@ export function ApiDocument(options: ApiDocumentOption) {
   if (Array.isArray(response)) {
     response.forEach((opt) => addApiResponse(opt, decorators));
   } else addApiResponse(response, decorators);
+
+  return applyDecorators(...decorators);
 }
 
 function addApiResponse(
