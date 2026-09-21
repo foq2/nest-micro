@@ -2,6 +2,7 @@ import { Inject, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { createProxyMiddleware, fixRequestBody } from 'http-proxy-middleware';
 import { microserviceConfiguration } from '@repo/nest-common';
 import { ConfigModule, ConfigType } from '@nestjs/config';
+import { JwtAuthMiddleware } from '../middleware';
 
 @Module({
   imports: [ConfigModule.forFeature(microserviceConfiguration)],
@@ -13,38 +14,37 @@ export class GatewayModule implements NestModule {
       typeof microserviceConfiguration
     >,
   ) {}
+
   configure(consumer: MiddlewareConsumer) {
+    const publicRoutes = [];
+
+    consumer
+      .apply(JwtAuthMiddleware)
+      .exclude(...publicRoutes)
+      .forRoutes('auth-service', 'user-service');
+
+    const createProxy = (targetUrl: string, pathPrefix: string) =>
+      createProxyMiddleware({
+        target: targetUrl,
+        changeOrigin: true,
+        pathRewrite: { [`^/${pathPrefix}`]: '' },
+        on: {
+          proxyReq: (proxyReq, req) => {
+            fixRequestBody(proxyReq, req);
+            proxyReq.setHeader('x-gateway-secret', '123');
+          },
+        },
+      });
+
     consumer
       .apply(
-        createProxyMiddleware({
-          target: this.microserviceConfig.authService.url,
-          changeOrigin: true,
-          on: {
-            proxyReq: (proxyReq, req: any) => {
-              fixRequestBody(proxyReq, req);
-
-              proxyReq.setHeader('x-gateway-secret', '123');
-            },
-          },
-          pathRewrite: { '^/auth-service': '' },
-        }),
+        createProxy(this.microserviceConfig.authService.url, 'auth-service'),
       )
       .forRoutes('auth-service');
 
     consumer
       .apply(
-        createProxyMiddleware({
-          target: this.microserviceConfig.userService.url,
-          changeOrigin: true,
-          pathRewrite: { '^/user-service': '' },
-          on: {
-            proxyReq: (proxyReq, req: any) => {
-              fixRequestBody(proxyReq, req);
-
-              proxyReq.setHeader('x-gateway-secret', '123');
-            },
-          },
-        }),
+        createProxy(this.microserviceConfig.userService.url, 'user-service'),
       )
       .forRoutes('user-service');
   }

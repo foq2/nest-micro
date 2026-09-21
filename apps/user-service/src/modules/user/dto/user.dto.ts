@@ -63,3 +63,6 @@ export class CreateUserBodyDto {
 export class CreateUserResponseDto extends PickType(BaseUserResponseDto, [
   'id',
 ]) {}
+
+// ---------------------- Get User Info Dto ------------------------------------
+export class GetInfoResponseDto extends BaseUserResponseDto {}

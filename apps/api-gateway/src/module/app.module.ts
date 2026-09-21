@@ -24,6 +24,7 @@ import { appConfiguration } from '../config';
       load: [appCommonConfiguration, appConfiguration],
     }),
     LoggerModule,
+    GatewayModule,
   ],
   controllers: [AppController],
   providers: [AppService],

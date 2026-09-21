@@ -14,7 +14,7 @@ export class CommonErrorResponseDto {
   errorCode: string;
 
   @DtoField()
-  errorService: string;
+  errorService?: string;
 
   @DtoField()
   message: string;
