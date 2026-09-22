@@ -5,7 +5,9 @@ import { GatewayModule } from './gateway';
 import { ConfigModule } from '@nestjs/config';
 import {
   appCommonConfiguration,
+  jwtConfiguration,
   LoggerModule,
+  microserviceConfiguration,
   validate,
 } from '@repo/nest-common';
 import { appConfiguration } from '../config';
@@ -21,7 +23,12 @@ import { appConfiguration } from '../config';
       // validationOptions: {
       //   abortEarly: false,
       // }
-      load: [appCommonConfiguration, appConfiguration],
+      load: [
+        appCommonConfiguration,
+        appConfiguration,
+        microserviceConfiguration,
+        jwtConfiguration,
+      ],
     }),
     LoggerModule,
     GatewayModule,

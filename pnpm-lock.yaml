@@ -132,9 +132,6 @@ importers:
       '@repo/nest-core':
         specifier: workspace:*
         version: link:../../libs/nest-core
-      jsonwebtoken:
-        specifier: ^9.0.3
-        version: 9.0.3
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
@@ -345,6 +342,9 @@ importers:
       joi:
         specifier: ^18.2.1
         version: 18.2.1
+      jsonwebtoken:
+        specifier: ^9.0.3
+        version: 9.0.3
       lodash:
         specifier: ^4.18.1
         version: 4.18.1
@@ -370,6 +370,9 @@ importers:
       '@repo/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
+      '@types/jsonwebtoken':
+        specifier: ^9.0.10
+        version: 9.0.10
 
   libs/nest-core:
     dependencies:

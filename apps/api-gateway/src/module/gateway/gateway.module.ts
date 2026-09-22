@@ -1,11 +1,23 @@
 import { Inject, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { createProxyMiddleware, fixRequestBody } from 'http-proxy-middleware';
-import { microserviceConfiguration } from '@repo/nest-common';
+import { jwtConfiguration, microserviceConfiguration } from '@repo/nest-common';
 import { ConfigModule, ConfigType } from '@nestjs/config';
 import { JwtAuthMiddleware } from '../middleware';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
-  imports: [ConfigModule.forFeature(microserviceConfiguration)],
+  imports: [
+    JwtModule.registerAsync({
+      inject: [jwtConfiguration.KEY],
+      useFactory: (jwtConfig: ConfigType<typeof jwtConfiguration>) => ({
+        secret: jwtConfig.secret,
+        signOptions: {
+          algorithm: jwtConfig.algorithm,
+        },
+      }),
+    }),
+  ],
+  providers: [JwtAuthMiddleware],
 })
 export class GatewayModule implements NestModule {
   constructor(
@@ -16,7 +28,7 @@ export class GatewayModule implements NestModule {
   ) {}
 
   configure(consumer: MiddlewareConsumer) {
-    const publicRoutes = [];
+    const publicRoutes = [':service/swagger', ':service/swagger/:path'];
 
     consumer
       .apply(JwtAuthMiddleware)
@@ -31,7 +43,16 @@ export class GatewayModule implements NestModule {
         on: {
           proxyReq: (proxyReq, req) => {
             fixRequestBody(proxyReq, req);
-            proxyReq.setHeader('x-gateway-secret', '123');
+            proxyReq.setHeader(
+              'x-internal-token',
+              this.microserviceConfig.gatewaySecret,
+            );
+
+            // --- THÊM LOG VÀO ĐÂY ---
+            console.log(
+              `[GATEWAY PROXY] ${req.method} ${req.url} -> ${proxyReq.protocol}//${proxyReq.getHeader('host')}${proxyReq.path}`,
+            );
+            console.log('[GATEWAY HEADERS]', proxyReq.getHeaders());
           },
         },
       });

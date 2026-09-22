@@ -26,8 +26,8 @@ export class JwtAuthMiddleware implements NestMiddleware {
         secret: this.jwtConfig.secret,
       });
 
-      delete req.headers['x-auth-token'];
-      req.headers['x-auth-token'] = Buffer.from(
+      delete req.headers['x-user-data'];
+      req.headers['x-user-data'] = Buffer.from(
         JSON.stringify(decoded),
       ).toString('base64');
     } catch {

@@ -11,4 +11,5 @@ export const microserviceConfiguration = registerAs('microservice', () => ({
     port: process.env.USER_SERVICE_PORT,
     url: process.env.USER_SERVICE_URL,
   },
+  gatewaySecret: process.env.GATEWAY_SECRET,
 }));

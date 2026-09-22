@@ -14,7 +14,7 @@ import { Algorithm } from 'jsonwebtoken';
         global: true,
         secret: jwtConfig.secret,
         signOptions: {
-          algorithm: jwtConfig.algorithm as Algorithm,
+          algorithm: jwtConfig.algorithm,
         },
       }),
       inject: [jwtConfiguration.KEY],

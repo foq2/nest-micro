@@ -10,20 +10,19 @@
 // zod
 import { z } from 'zod';
 
-export const validationSchema = z
-  .object({
-    // TZ: z.string(),
-    // NODE_ENV: z.enum(NodeEnv),
-    FRONTEND_URL: z.url(),
-    AUTH_SERVICE_HOST: z.string(),
-    AUTH_SERVICE_PORT: z.string(), // z.coerce.number(),
-    AUTH_SERVICE_URL: z.string(),
-    USER_SERVICE_HOST: z.string(),
-    USER_SERVICE_PORT: z.string(),
-    USER_SERVICE_URL: z.string(),
-    // API_GATEWAY_PORT: z.string(),
-  })
-  .loose();
+export const validationSchema = z.looseObject({
+  // TZ: z.string(),
+  // NODE_ENV: z.enum(NodeEnv),
+  FRONTEND_URL: z.url(),
+  AUTH_SERVICE_HOST: z.string(),
+  AUTH_SERVICE_PORT: z.string(), // z.coerce.number(),
+  AUTH_SERVICE_URL: z.string(),
+  USER_SERVICE_HOST: z.string(),
+  USER_SERVICE_PORT: z.string(),
+  USER_SERVICE_URL: z.string(),
+  GATEWAY_SECRET: z.string(),
+  // API_GATEWAY_PORT: z.string(),
+});
 
 export function validate(config: Record<string, unknown>) {
   const result = validationSchema.safeParse(config);
