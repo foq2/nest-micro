@@ -1,7 +1,7 @@
 import { Inject, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { createProxyMiddleware, fixRequestBody } from 'http-proxy-middleware';
 import { jwtConfiguration, microserviceConfiguration } from '@repo/nest-common';
-import { ConfigModule, ConfigType } from '@nestjs/config';
+import { ConfigType } from '@nestjs/config';
 import { JwtAuthMiddleware } from '../middleware';
 import { JwtModule } from '@nestjs/jwt';
 
@@ -47,12 +47,6 @@ export class GatewayModule implements NestModule {
               'x-internal-token',
               this.microserviceConfig.gatewaySecret,
             );
-
-            // --- THÊM LOG VÀO ĐÂY ---
-            console.log(
-              `[GATEWAY PROXY] ${req.method} ${req.url} -> ${proxyReq.protocol}//${proxyReq.getHeader('host')}${proxyReq.path}`,
-            );
-            console.log('[GATEWAY HEADERS]', proxyReq.getHeaders());
           },
         },
       });
