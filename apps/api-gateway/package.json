@@ -27,6 +27,7 @@
     "@nestjs/jwt": "^12.0.2",
     "@nestjs/platform-express": "11.0.1",
     "@repo/nest-common": "workspace:*",
+    "@repo/nest-core": "workspace:*",
     "http-proxy-middleware": "^4.0.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"

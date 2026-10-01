@@ -5,3 +5,5 @@ what does we need here
 - check and finish docker( both docker file and docker-compose) / docker file is still not checked
 - maybe setup core also, there nothing there now / there something there now
 - microservice communication / lgtm
+
+- now just need to implement the base auth and crud user 

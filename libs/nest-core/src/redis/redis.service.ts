@@ -33,4 +33,11 @@ export class RedisService {
   }
 
   // Redis Key
+  public getUserTokenKey(userId: string, jti: string) {
+    return `user:${userId}:token:${jti}`;
+  }
+
+  public getUserPattern(userId: string) {
+    return `user:${userId}:token`;
+  }
 }

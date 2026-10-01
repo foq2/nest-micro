@@ -14,3 +14,7 @@ export enum BodyContentType {
   Json = 'application/json',
   MultipartFormData = 'multipart/form-data',
 }
+export enum JwtTokenType {
+  AccessToken = 'access_token',
+  RefreshToken = 'refresh_token',
+}

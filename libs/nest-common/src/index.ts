@@ -10,3 +10,4 @@ export * from './exceptions';
 export * from './interceptors';
 export * from './patterns';
 export * from './guards';
+export * from './interfaces';

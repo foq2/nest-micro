@@ -19,6 +19,7 @@ import { Algorithm } from 'jsonwebtoken';
       }),
       inject: [jwtConfiguration.KEY],
     }),
+    ConfigModule.forFeature(jwtConfiguration),
   ],
   controllers: [AuthController],
   providers: [AuthService],

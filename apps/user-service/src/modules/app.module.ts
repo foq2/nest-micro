@@ -6,12 +6,13 @@ import { appConfiguration } from '../config';
 import {
   AllExceptionFilter,
   appCommonConfiguration,
+  AppGuard,
   LoggerModule,
   tcpConfiguration,
   validate,
 } from '@repo/nest-common';
 import { UserModule } from './user';
-import { APP_FILTER } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import config from '../mikro-orm.config';
 
@@ -42,6 +43,7 @@ import config from '../mikro-orm.config';
   providers: [
     AppService,
     { provide: APP_FILTER, useClass: AllExceptionFilter },
+    { provide: APP_GUARD, useClass: AppGuard },
   ],
 })
 export class AppModule {}

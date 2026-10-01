@@ -1,5 +1,5 @@
 import { Controller, HttpException } from '@nestjs/common';
-import { MessagePattern, Transport } from '@nestjs/microservices';
+import { EventPattern, MessagePattern, Transport } from '@nestjs/microservices';
 
 @Controller()
 export class UserConsumer {
@@ -9,5 +9,10 @@ export class UserConsumer {
   async test() {
     throw new HttpException('Lỗi cố tình throw từ Service B để test!', 400);
     // return 'test oke';
+  }
+
+  @EventPattern()
+  async event() {
+    return 'event';
   }
 }

@@ -6,6 +6,7 @@ import { ConfigModule, ConfigType } from '@nestjs/config';
 import {
   AllExceptionFilter,
   appCommonConfiguration,
+  AppGuard,
   LoggerModule,
   MicroserviceName,
   tcpConfiguration,
@@ -14,7 +15,7 @@ import {
 import { appConfiguration } from '../config';
 import { MicroserviceModule } from '@repo/nest-core';
 import { Transport } from '@nestjs/microservices';
-import { APP_FILTER } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { APP_FILTER } from '@nestjs/core';
   providers: [
     AppService,
     { provide: APP_FILTER, useClass: AllExceptionFilter },
+    { provide: APP_GUARD, useClass: AppGuard },
   ],
 })
 export class AppModule {}

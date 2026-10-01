@@ -50,6 +50,9 @@ importers:
       '@repo/nest-common':
         specifier: workspace:*
         version: link:../../libs/nest-common
+      '@repo/nest-core':
+        specifier: workspace:*
+        version: link:../../libs/nest-core
       http-proxy-middleware:
         specifier: ^4.0.0
         version: 4.0.0
@@ -138,6 +141,9 @@ importers:
       rxjs:
         specifier: ^7.8.1
         version: 7.8.2
+      uuid:
+        specifier: ^14.0.2
+        version: 14.0.2
     devDependencies:
       '@nestjs/cli':
         specifier: ^11.0.0
