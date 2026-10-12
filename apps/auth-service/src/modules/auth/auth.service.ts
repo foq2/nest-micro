@@ -1,21 +1,25 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { appConfiguration } from 'src/config';
 import { ConfigType } from '@nestjs/config';
-import { callMs, MS_INJECTION_TOKEN } from '@repo/nest-core';
+import { callMs, MS_INJECTION_TOKEN, RedisService } from '@repo/nest-core';
 import {
   jwtConfiguration,
   JwtTokenType,
   MicroserviceName,
+  parseToSeconds,
   TokenPayload,
+  UserMessagePattern,
 } from '@repo/nest-common';
 import { ClientProxy, Transport } from '@nestjs/microservices';
 import { JwtService } from '@nestjs/jwt';
 import { v4 as uuid } from 'uuid';
+import { LoginBodyDto } from './dto';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
+    private readonly redisService: RedisService,
     @Inject(appConfiguration.KEY)
     private readonly appConfig: ConfigType<typeof appConfiguration>,
     @Inject(jwtConfiguration.KEY)
@@ -24,8 +28,10 @@ export class AuthService {
     private readonly userClientTcp: ClientProxy,
   ) {}
 
-  login(body: any): any {
-    const user = {};
+  async login(body: LoginBodyDto) {
+    const user = await callMs(
+      this.userClientTcp.send(UserMessagePattern.GetUser, { ...body }),
+    );
 
     return 'login';
   }
@@ -35,7 +41,8 @@ export class AuthService {
   }
 
   private async generateUserToken(user: any) {
-    const tokenPayload = { ...user, jti: uuid() };
+    const jti = uuid();
+    const tokenPayload = { ...user, jti };
 
     const [accessToken, refreshToken] = await Promise.all([
       this.generateJwtToken(
@@ -49,6 +56,14 @@ export class AuthService {
         this.jwtConfig.refreshTokenExpiresIn,
       ),
     ]);
+
+    await this.redisService.set(
+      this.redisService.getUserTokenKey(user.id, jti),
+      1,
+      parseToSeconds(this.jwtConfig.refreshTokenExpiresIn),
+    );
+
+    return { accessToken, refreshToken };
   }
 
   private async generateJwtToken(

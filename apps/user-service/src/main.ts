@@ -9,6 +9,7 @@ import {
   setupApiDocs,
   MicroserviceName,
   tcpConfiguration,
+  PayloadValidationPipe,
 } from '@repo/nest-common';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
@@ -24,6 +25,8 @@ async function bootstrap() {
 
   const logger = app.get(CommonLogger);
   app.useLogger(logger);
+  app.setGlobalPrefix('api');
+  app.useGlobalPipes(new PayloadValidationPipe());
 
   // Microservice listener
   const { [MicroserviceName.UserService]: userTcpOption } = app.get<

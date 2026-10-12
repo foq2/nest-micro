@@ -1,1 +1,4 @@
-export enum UserMessagePattern {}
+export enum UserMessagePattern {
+  GetUser = 'user.get',
+  VerifyUser = 'user.verify',
+}

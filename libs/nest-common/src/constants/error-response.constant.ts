@@ -6,4 +6,9 @@ export const ERROR_RESPONSE = {
     errorCode: 'internal_server_error',
     message: 'Internal Server Error',
   },
+  REQUEST_PAYLOAD_VALIDATION_ERROR: {
+    statusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+    errorCode: 'request_payload_validation_error',
+    message: 'Request payload validation error',
+  },
 };
