@@ -11,4 +11,9 @@ export const ERROR_RESPONSE = {
     errorCode: 'request_payload_validation_error',
     message: 'Request payload validation error',
   },
+  INVALID_CREDENTIALS: {
+    statusCode: HttpStatus.UNAUTHORIZED,
+    errorCode: 'invalid_credentials',
+    message: 'Invalid credentials',
+  },
 };

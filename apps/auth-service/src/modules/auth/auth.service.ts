@@ -30,10 +30,10 @@ export class AuthService {
 
   async login(body: LoginBodyDto) {
     const user = await callMs(
-      this.userClientTcp.send(UserMessagePattern.GetUser, { ...body }),
+      this.userClientTcp.send(UserMessagePattern.VerifyUser, body),
     );
 
-    return 'login';
+    return this.generateUserToken(user);
   }
 
   get123() {

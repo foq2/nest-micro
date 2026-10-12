@@ -37,6 +37,7 @@
     "@nestjs/swagger": "11.4.4",
     "@repo/nest-common": "workspace:*",
     "@repo/nest-core": "workspace:*",
+    "bcryptjs": "^3.0.3",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
   },
