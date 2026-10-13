@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { ClassSerializerInterceptor, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth';
@@ -15,7 +15,7 @@ import {
 import { appConfiguration } from '../config';
 import { MicroserviceModule } from '@repo/nest-core';
 import { Transport } from '@nestjs/microservices';
-import { APP_FILTER, APP_GUARD } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -44,6 +44,7 @@ import { APP_FILTER, APP_GUARD } from '@nestjs/core';
     AppService,
     { provide: APP_FILTER, useClass: AllExceptionFilter },
     { provide: APP_GUARD, useClass: AppGuard },
+    { provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor },
   ],
 })
 export class AppModule {}

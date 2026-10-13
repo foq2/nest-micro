@@ -1,19 +1,68 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { Public } from '@repo/nest-common';
+import {
+  ApiDocument,
+  Public,
+  User,
+  UserRequestPayload,
+} from '@repo/nest-common';
+import {
+  LoginBodyDto,
+  LoginResponseDto,
+  LogoutResponseDto,
+  RefreshTokenBodyDto,
+  RefreshTokenResponseDto,
+} from './dto';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Public()
+  @ApiDocument({
+    operation: {
+      operationId: 'login',
+      summary: 'Api login',
+    },
+    response: {
+      status: HttpStatus.OK,
+      type: LoginResponseDto,
+    },
+  })
   @Post('login')
-  async login(@Body() body: any): Promise<any> {
+  async login(@Body() body: LoginBodyDto): Promise<LoginResponseDto> {
     return this.authService.login(body);
   }
 
-  @Get('123')
-  get123() {
-    return this.authService.get123();
+  @Post('logout')
+  @ApiDocument({
+    operation: {
+      operationId: 'logout',
+      summary: 'Api logout',
+    },
+    response: {
+      status: HttpStatus.OK,
+      type: LogoutResponseDto,
+    },
+  })
+  async logout(@User() user: UserRequestPayload): Promise<LogoutResponseDto> {
+    return this.authService.logout(user);
+  }
+
+  @Post('refreshToken')
+  @ApiDocument({
+    operation: {
+      operationId: 'refreshToken',
+      summary: 'Api refreshToken',
+    },
+    response: {
+      status: HttpStatus.OK,
+      type: RefreshTokenResponseDto,
+    },
+  })
+  async refreshToken(
+    @Body() body: RefreshTokenBodyDto,
+  ): Promise<RefreshTokenResponseDto> {
+    return this.authService.refreshToken(body);
   }
 }

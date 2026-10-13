@@ -32,6 +32,10 @@ export class RedisService {
     }
   }
 
+  async delete(key: string): Promise<void> {
+    await this.redis.del(key);
+  }
+
   // Redis Key
   public getUserTokenKey(userId: string, jti: string) {
     return `user:${userId}:token:${jti}`;

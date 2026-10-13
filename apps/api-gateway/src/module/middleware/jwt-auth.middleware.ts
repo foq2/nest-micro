@@ -16,7 +16,7 @@ export class JwtAuthMiddleware implements NestMiddleware {
     private readonly jwtService: JwtService,
     private readonly redisService: RedisService,
   ) {}
-  async use(req: Request, res: Response, next: NextFunction) {
+  async use(req: Request, res: Response, next: NextFunction): Promise<void> {
     const token = req.headers['authorization']?.split(' ')[1];
 
     if (!token) {

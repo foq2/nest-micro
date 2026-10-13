@@ -8,6 +8,7 @@ import {
   logBootstrapInfo,
   setupApiDocs,
 } from '@repo/nest-common';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { bufferLogs: true });
@@ -21,6 +22,8 @@ async function bootstrap() {
   const logger = app.get(CommonLogger);
 
   app.useLogger(logger);
+  app.setGlobalPrefix('api');
+  app.useGlobalPipes(new ValidationPipe());
 
   // API docs
   await setupApiDocs(app, appName, ['/auth']);

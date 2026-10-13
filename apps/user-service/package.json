@@ -34,7 +34,7 @@
     "@nestjs/core": "11.0.1",
     "@nestjs/microservices": "11.0.1",
     "@nestjs/platform-express": "11.0.1",
-    "@nestjs/swagger": "11.4.4",
+    "@nestjs/swagger": "11.0.1",
     "@repo/nest-common": "workspace:*",
     "@repo/nest-core": "workspace:*",
     "bcryptjs": "^3.0.3",

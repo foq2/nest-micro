@@ -16,4 +16,9 @@ export const ERROR_RESPONSE = {
     errorCode: 'invalid_credentials',
     message: 'Invalid credentials',
   },
+  UNAUTHORIZED: {
+    statusCode: HttpStatus.UNAUTHORIZED,
+    errorCode: 'unauthorized',
+    message: 'Unauthorized',
+  },
 };
