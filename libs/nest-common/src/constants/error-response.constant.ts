@@ -21,4 +21,9 @@ export const ERROR_RESPONSE = {
     errorCode: 'unauthorized',
     message: 'Unauthorized',
   },
+  USER_ALREADY_EXISTS: {
+    statusCode: HttpStatus.CONFLICT,
+    errorCode: 'user_already_exists',
+    message: 'User already exists',
+  },
 };

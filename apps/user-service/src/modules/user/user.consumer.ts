@@ -1,11 +1,17 @@
 import { Controller, HttpException } from '@nestjs/common';
-import { EventPattern, MessagePattern, Transport } from '@nestjs/microservices';
+import {
+  EventPattern,
+  MessagePattern,
+  Payload,
+  Transport,
+} from '@nestjs/microservices';
 import { UserMessagePattern, VerifyUserPayloadDto } from '@repo/nest-common';
-import { UserConsumerService } from './user-consumer.service';
+import { CommandBus } from '@nestjs/cqrs';
+import { VerifyUserCommand } from './commands';
 
 @Controller()
 export class UserConsumer {
-  constructor(private readonly userConsumerService: UserConsumerService) {}
+  constructor(private readonly commandBus: CommandBus) {}
 
   @MessagePattern('123', Transport.TCP)
   async test() {
@@ -22,7 +28,7 @@ export class UserConsumer {
   async getUser(data: any) {}
 
   @MessagePattern(UserMessagePattern.VerifyUser, Transport.TCP)
-  async verifyUser(payload: VerifyUserPayloadDto) {
-    return this.userConsumerService.verifyUser(payload);
+  async verifyUser(@Payload() payload: VerifyUserPayloadDto) {
+    return this.commandBus.execute(new VerifyUserCommand(payload));
   }
 }

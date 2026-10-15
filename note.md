@@ -6,4 +6,6 @@ what does we need here
 - maybe setup core also, there nothing there now / there something there now
 - microservice communication / lgtm
 
-- now just need to implement the base auth and crud user 
+- now just need to implement the base auth and crud user / base auth done / crud user using cqrs?
+- what about command/cli
+- 
