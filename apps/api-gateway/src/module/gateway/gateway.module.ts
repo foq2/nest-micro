@@ -1,9 +1,13 @@
 import { Inject, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { createProxyMiddleware, fixRequestBody } from 'http-proxy-middleware';
-import { jwtConfiguration, microserviceConfiguration } from '@repo/nest-common';
+import {
+  jwtConfiguration,
+  microserviceConfiguration,
+  MicroservicePrefix,
+} from '@repo/nest-common';
 import { ConfigType } from '@nestjs/config';
-import { JwtAuthMiddleware } from '../middleware';
 import { JwtModule } from '@nestjs/jwt';
+import { JwtAuthMiddleware } from './middleware';
 
 @Module({
   imports: [
@@ -28,39 +32,51 @@ export class GatewayModule implements NestModule {
   ) {}
 
   configure(consumer: MiddlewareConsumer) {
-    const publicRoutes = [':service/swagger', ':service/swagger/:path'];
+    const publicRoutes = [
+      ':service/swagger',
+      ':service/swagger/:path',
+      ':service/api',
+      'auth-service/api/auth/login',
+    ];
 
     consumer
       .apply(JwtAuthMiddleware)
       .exclude(...publicRoutes)
-      .forRoutes('auth-service', 'user-service');
+      .forRoutes(...Object.values(MicroservicePrefix));
 
-    const createProxy = (targetUrl: string, pathPrefix: string) =>
-      createProxyMiddleware({
-        target: targetUrl,
-        changeOrigin: true,
-        pathRewrite: { [`^/${pathPrefix}`]: '' },
-        on: {
-          proxyReq: (proxyReq, req) => {
-            fixRequestBody(proxyReq, req);
-            proxyReq.setHeader(
-              'x-internal-token',
-              this.microserviceConfig.gatewaySecret,
-            );
-          },
+    consumer
+      .apply(
+        this.createProxy(
+          this.microserviceConfig.authService.url,
+          MicroservicePrefix.AuthService,
+        ),
+      )
+      .forRoutes(MicroservicePrefix.AuthService);
+
+    consumer
+      .apply(
+        this.createProxy(
+          this.microserviceConfig.userService.url,
+          MicroservicePrefix.UserService,
+        ),
+      )
+      .forRoutes(MicroservicePrefix.UserService);
+  }
+
+  private createProxy(targetUrl: string, pathPrefix: string) {
+    return createProxyMiddleware({
+      target: targetUrl,
+      changeOrigin: true,
+      pathRewrite: { [`^/${pathPrefix}`]: '' },
+      on: {
+        proxyReq: (proxyReq, req) => {
+          proxyReq.setHeader(
+            'x-internal-token',
+            this.microserviceConfig.gatewaySecret,
+          );
+          fixRequestBody(proxyReq, req);
         },
-      });
-
-    consumer
-      .apply(
-        createProxy(this.microserviceConfig.authService.url, 'auth-service'),
-      )
-      .forRoutes('auth-service');
-
-    consumer
-      .apply(
-        createProxy(this.microserviceConfig.userService.url, 'user-service'),
-      )
-      .forRoutes('user-service');
+      },
+    });
   }
 }

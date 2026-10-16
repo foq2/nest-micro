@@ -6,6 +6,7 @@ import {
   appCommonConfiguration,
   CommonLogger,
   logBootstrapInfo,
+  MicroservicePrefix,
   setupApiDocs,
 } from '@repo/nest-common';
 import { ValidationPipe } from '@nestjs/common';
@@ -26,7 +27,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   // API docs
-  await setupApiDocs(app, appName, ['/auth']);
+  await setupApiDocs(app, appName, [MicroservicePrefix.AuthService]);
 
   await app.listen(appPort);
 

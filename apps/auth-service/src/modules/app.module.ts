@@ -8,12 +8,13 @@ import {
   appCommonConfiguration,
   AppGuard,
   LoggerModule,
+  microserviceConfiguration,
   MicroserviceName,
   tcpConfiguration,
   validate,
 } from '@repo/nest-common';
 import { appConfiguration } from '../config';
-import { MicroserviceModule } from '@repo/nest-core';
+import { MicroserviceModule, RedisModule } from '@repo/nest-core';
 import { Transport } from '@nestjs/microservices';
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 
@@ -25,7 +26,12 @@ import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
       cache: true,
       validate,
       // validationOptions: { abortEarly: false },
-      load: [appCommonConfiguration, appConfiguration, tcpConfiguration],
+      load: [
+        appCommonConfiguration,
+        appConfiguration,
+        tcpConfiguration,
+        microserviceConfiguration,
+      ],
     }),
     LoggerModule,
     MicroserviceModule.registerAsync([
@@ -38,6 +44,7 @@ import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
         inject: [tcpConfiguration.KEY],
       },
     ]),
+    RedisModule,
   ],
   controllers: [AppController],
   providers: [

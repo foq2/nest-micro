@@ -16,7 +16,7 @@ export async function setupApiDocs(
     .addBearerAuth();
 
   if (serverUrls) {
-    serverUrls.forEach((url) => config.addServer(url));
+    serverUrls.forEach((url) => config.addServer(`/${url}`));
   }
 
   const document = SwaggerModule.createDocument(app, config.build());

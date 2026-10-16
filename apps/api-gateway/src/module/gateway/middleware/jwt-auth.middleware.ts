@@ -20,6 +20,7 @@ export class JwtAuthMiddleware implements NestMiddleware {
     const token = req.headers['authorization']?.split(' ')[1];
 
     if (!token) {
+      console.log('bi chan o day');
       throw new AppException(ERROR_RESPONSE.INTERNAL_SERVER_ERROR);
     }
 

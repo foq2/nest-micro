@@ -24,7 +24,7 @@ import { ConfigModule, ConfigType } from '@nestjs/config';
                 }
               : undefined,
           level: config.logLevel,
-          autoLogging: false,
+          autoLogging: true,
         },
       }),
     }),

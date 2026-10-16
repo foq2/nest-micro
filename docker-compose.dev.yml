@@ -25,7 +25,7 @@ services:
       file: .docker/compose/postgresql/postgresql.yml
       service: postgresql
     ports:
-      - '5554:5432'
+      - '${DEFAULT_PG_PORT:-5554}:5432'
     volumes:
       - ${PWD}/.docker/volumes/pg_data:/var/lib/postgresql/data
     networks:
@@ -43,7 +43,7 @@ services:
       file: .docker/compose/redis/redis.yml
       service: redis
     ports:
-      - '6574:6379'
+      - '${REDIS_PORT:-6574}:6379'
     networks:
       - nest-micro-dev-network
     volumes:

@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { GatewayModule } from './gateway';
 import { ConfigModule } from '@nestjs/config';
 import {
+  AllExceptionFilter,
   appCommonConfiguration,
   jwtConfiguration,
   LoggerModule,
@@ -11,6 +12,8 @@ import {
   validate,
 } from '@repo/nest-common';
 import { appConfiguration } from '../config';
+import { RedisModule } from '@repo/nest-core';
+import { APP_FILTER } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -32,8 +35,12 @@ import { appConfiguration } from '../config';
     }),
     LoggerModule,
     GatewayModule,
+    RedisModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    { provide: APP_FILTER, useClass: AllExceptionFilter },
+  ],
 })
 export class AppModule {}

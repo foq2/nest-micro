@@ -9,7 +9,9 @@ export class VerifyUserHandler implements ICommandHandler<VerifyUserCommand> {
   constructor(private readonly userRepo: UserRepository) {}
 
   async execute(command: VerifyUserCommand) {
+    console.log('in here');
     const user = await this.userRepo.findOne({ username: command.username });
+    console.log('going through here?');
     if (!user?.password)
       throw new AppException(ERROR_RESPONSE.INVALID_CREDENTIALS);
 

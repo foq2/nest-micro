@@ -15,7 +15,7 @@ import { RedisService } from './redis.service';
   providers: [
     {
       provide: REDIS_CLIENT,
-      inject: [redisConfiguration.KEY],
+      inject: [redisConfiguration.KEY, CommonLogger],
       useFactory: async (
         redisConfig: ConfigType<typeof redisConfiguration>,
         logger: CommonLogger,

@@ -25,22 +25,25 @@ export class AppGuard implements CanActivate {
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
+    if (context.getType() !== 'http') return true;
+
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler(),
-      context.getClass,
+      context.getClass(),
     ]);
 
     if (isPublic) return true;
 
     const req = context.switchToHttp().getRequest();
     const key = 'x-internal-token';
-    const gatewaySecret = req?.headers[key];
+    const gatewaySecret = req?.headers?.[key];
 
     if (
       !gatewaySecret ||
       gatewaySecret !== this.microserviceConfig.gatewaySecret
     ) {
-      throw new AppException(ERROR_RESPONSE.INTERNAL_SERVER_ERROR);
+      console.log('sai pass');
+      throw new AppException(ERROR_RESPONSE.INVALID_CREDENTIALS);
     }
 
     const userData = req?.headers['x-user-data'];

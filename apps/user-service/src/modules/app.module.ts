@@ -8,6 +8,7 @@ import {
   appCommonConfiguration,
   AppGuard,
   LoggerModule,
+  microserviceConfiguration,
   tcpConfiguration,
   validate,
 } from '@repo/nest-common';
@@ -24,7 +25,12 @@ import { CqrsModule } from '@nestjs/cqrs';
       cache: true,
       validate,
       // validationOptions: { abortEarly: false },
-      load: [appConfiguration, appCommonConfiguration, tcpConfiguration],
+      load: [
+        appConfiguration,
+        appCommonConfiguration,
+        tcpConfiguration,
+        microserviceConfiguration,
+      ],
     }),
     MikroOrmModule.forRoot(config),
     CqrsModule.forRoot(),

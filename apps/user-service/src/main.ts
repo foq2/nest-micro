@@ -10,6 +10,7 @@ import {
   MicroserviceName,
   tcpConfiguration,
   PayloadValidationPipe,
+  MicroservicePrefix,
 } from '@repo/nest-common';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
@@ -44,7 +45,7 @@ async function bootstrap() {
   await app.startAllMicroservices();
 
   // API docs
-  setupApiDocs(app, appName, ['/user-service']);
+  await setupApiDocs(app, appName, [MicroservicePrefix.UserService]);
 
   await app.listen(appPort);
 
