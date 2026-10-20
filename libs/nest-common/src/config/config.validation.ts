@@ -30,7 +30,6 @@ export function validate(config: Record<string, unknown>) {
     result.error.issues.forEach((issue) => {
       console.error(`${issue.path.join('.')}: ${issue.message}`);
     });
-    console.error('');
     throw new Error('Invalid environment variables');
   }
   return result.data;

@@ -6,12 +6,12 @@ import {
   Transport,
 } from '@nestjs/microservices';
 import { UserMessagePattern, VerifyUserPayloadDto } from '@repo/nest-common';
-import { CommandBus } from '@nestjs/cqrs';
 import { VerifyUserCommand } from './commands';
+import { CommonCqrsBus } from '@repo/nest-core';
 
 @Controller()
 export class UserConsumer {
-  constructor(private readonly commandBus: CommandBus) {}
+  constructor(private readonly commonCqrsBus: CommonCqrsBus) {}
 
   @MessagePattern('123', Transport.TCP)
   async test() {
@@ -29,6 +29,6 @@ export class UserConsumer {
 
   @MessagePattern(UserMessagePattern.VerifyUser, Transport.TCP)
   async verifyUser(@Payload() payload: VerifyUserPayloadDto) {
-    return this.commandBus.execute(new VerifyUserCommand(payload));
+    return this.commonCqrsBus.executeCommand(new VerifyUserCommand(payload));
   }
 }

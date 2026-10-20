@@ -25,21 +25,21 @@ export class BaseUserResponseDto {
 export class CreateUserBodyDto {
   @DtoField({
     type: String,
+    required: false,
     validated: true,
-    required: true,
     description: `user's name`,
     example: 'foq',
   })
-  name: string;
+  name?: string;
 
   @DtoField({
     type: String,
-    required: true,
+    required: false,
     validated: true,
     description: `user's email`,
     example: 'foq@email.com',
   })
-  email: string;
+  email?: string;
 
   @DtoField({
     type: String,

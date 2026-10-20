@@ -2,14 +2,20 @@ import { Module } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { UserEntity } from '../../data-access';
 import { UserController } from './user.controller';
-import { CqrsModule } from '@nestjs/cqrs';
 import { CreateUserHandler, VerifyUserHandler } from './commands';
 import { GetInfoHandler } from './queries';
 import { UserConsumer } from './user.consumer';
+import { CreateAdminCli, CreateAdminQuestions } from './cli';
 
 @Module({
-  imports: [MikroOrmModule.forFeature([UserEntity]), CqrsModule],
+  imports: [MikroOrmModule.forFeature([UserEntity])],
   controllers: [UserConsumer, UserController],
-  providers: [CreateUserHandler, GetInfoHandler, VerifyUserHandler],
+  providers: [
+    CreateUserHandler,
+    GetInfoHandler,
+    VerifyUserHandler,
+    CreateAdminCli,
+    CreateAdminQuestions,
+  ],
 })
 export class UserModule {}

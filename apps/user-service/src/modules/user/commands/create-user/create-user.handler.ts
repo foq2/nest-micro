@@ -13,7 +13,9 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
     private readonly userRepo: UserRepository,
   ) {}
   async execute(command: CreateUserCommand): Promise<CreateUserResponseDto> {
-    const existingUser = await this.userRepo.findOne({ email: command.email });
+    const existingUser = await this.userRepo.findOne({
+      username: command.username,
+    });
     if (!existingUser) {
       throw new AppException(ERROR_RESPONSE.USER_ALREADY_EXISTS);
     }

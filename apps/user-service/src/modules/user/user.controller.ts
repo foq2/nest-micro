@@ -5,16 +5,13 @@ import {
   CreateUserResponseDto,
   GetInfoResponseDto,
 } from './dto';
-import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreateUserCommand } from './commands';
 import { GetInfoQuery } from './queries';
+import { CommonCqrsBus } from '@repo/nest-core';
 
 @Controller('user')
 export class UserController {
-  constructor(
-    private readonly commandBus: CommandBus,
-    private readonly queryBus: QueryBus,
-  ) {}
+  constructor(private readonly commonCqrsBus: CommonCqrsBus) {}
 
   @Get()
   @ApiDocument({
@@ -28,7 +25,7 @@ export class UserController {
     },
   })
   async getInfo(@User('id') id: string): Promise<GetInfoResponseDto> {
-    return this.queryBus.execute(new GetInfoQuery(id));
+    return this.commonCqrsBus.executeQuery(new GetInfoQuery(id));
   }
 
   @Post()
@@ -45,7 +42,7 @@ export class UserController {
   async createUser(
     @Body() body: CreateUserBodyDto,
   ): Promise<CreateUserResponseDto> {
-    return this.commandBus.execute(new CreateUserCommand(body));
+    return this.commonCqrsBus.executeCommand(new CreateUserCommand(body));
   }
 
   // TODO add more api? list/get-one/update/delete

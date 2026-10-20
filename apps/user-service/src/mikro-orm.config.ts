@@ -3,7 +3,6 @@ import { Migrator } from '@mikro-orm/migrations';
 import { NodeEnv } from '@repo/nest-common';
 import path from 'path';
 import * as dotenv from 'dotenv';
-import { BaseRepository } from '@repo/nest-core';
 
 dotenv.config();
 
@@ -20,7 +19,9 @@ export default defineConfig({
 
   // entityRepository: BaseRepository,
 
-  debug: process.env.NODE_ENV != NodeEnv.Production,
+  debug: false,
+  // process.env.NODE_ENV !== NodeEnv.Production ||
+  // Boolean(process.env.USER_SERVICE_DB_DEBUG),
 
   entities: ['./dist/**/*.entity.js'],
   entitiesTs: ['./src/**/*.entity.ts'],

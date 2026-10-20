@@ -23,6 +23,7 @@
       "cache": false
     }
   },
+  "globalDependencies": [".env"],
   "globalEnv": [
     "TZ",
     "NODE_ENV",
@@ -34,6 +35,7 @@
     "USER_SERVICE_PORT",
     "USER_SERVICE_URL",
     "GATEWAY_SECRET",
-    "REDIS_URL"
+    "REDIS_URL",
+    "DEFAULT_PG_PORT"
   ]
 }
