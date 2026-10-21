@@ -13,6 +13,7 @@ import {
   RefreshTokenBodyDto,
   RefreshTokenResponseDto,
 } from './dto';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
@@ -35,6 +36,7 @@ export class AuthController {
   }
 
   @Post('logout')
+  @ApiBearerAuth()
   @ApiDocument({
     operation: {
       operationId: 'logout',
@@ -50,6 +52,7 @@ export class AuthController {
   }
 
   @Post('refreshToken')
+  @ApiBearerAuth()
   @ApiDocument({
     operation: {
       operationId: 'refreshToken',

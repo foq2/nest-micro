@@ -78,7 +78,7 @@ export class AuthService {
     const accessToken = await this.generateJwtToken(
       tokenPayload,
       JwtTokenType.AccessToken,
-      this.jwtConfig.accessTokenExpiresIn,
+      parseToSeconds(this.jwtConfig.accessTokenExpiresIn),
     );
 
     return { accessToken };
@@ -92,12 +92,12 @@ export class AuthService {
       this.generateJwtToken(
         tokenPayload,
         JwtTokenType.AccessToken,
-        this.jwtConfig.accessTokenExpiresIn,
+        parseToSeconds(this.jwtConfig.accessTokenExpiresIn),
       ),
       this.generateJwtToken(
         tokenPayload,
         JwtTokenType.RefreshToken,
-        this.jwtConfig.refreshTokenExpiresIn,
+        parseToSeconds(this.jwtConfig.refreshTokenExpiresIn),
       ),
     ]);
 
@@ -106,7 +106,6 @@ export class AuthService {
       1,
       parseToSeconds(this.jwtConfig.refreshTokenExpiresIn),
     );
-
     return { accessToken, refreshToken };
   }
 

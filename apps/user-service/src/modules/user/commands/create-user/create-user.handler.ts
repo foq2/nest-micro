@@ -16,7 +16,7 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
     const existingUser = await this.userRepo.findOne({
       username: command.username,
     });
-    if (!existingUser) {
+    if (existingUser) {
       throw new AppException(ERROR_RESPONSE.USER_ALREADY_EXISTS);
     }
 

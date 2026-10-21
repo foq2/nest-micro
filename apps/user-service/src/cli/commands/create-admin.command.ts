@@ -1,17 +1,17 @@
 import { Command, CommandRunner, InquirerService } from 'nest-commander';
-import {
-  USER_CLI_COMMAND_CONSTANTS,
-  USER_CLI_QUESTION_CONSTANTS,
-} from '../user.constants';
 import { CommonCqrsBus } from '@repo/nest-core';
-import { CreateUserCommand } from '../commands';
+import {
+  CLI_COMMAND_CONSTANTS,
+  CLI_QUESTION_CONSTANTS,
+} from '../cli.constants';
+import { CreateUserCommand } from '../../modules/user';
 
 @Command({
-  name: USER_CLI_COMMAND_CONSTANTS.CREATE_ADMIN,
+  name: CLI_COMMAND_CONSTANTS.CREATE_ADMIN,
   description: 'Creates a admin user',
   arguments: '[username] [password]',
 })
-export class CreateAdminCli extends CommandRunner {
+export class CreateAdminCommand extends CommandRunner {
   constructor(
     private readonly inquirer: InquirerService,
     private readonly commonCqrsBus: CommonCqrsBus,
@@ -23,13 +23,18 @@ export class CreateAdminCli extends CommandRunner {
     const answers = await this.inquirer.prompt<{
       username: string;
       password: string;
-    }>(USER_CLI_QUESTION_CONSTANTS.CREATE_ADMIN, undefined);
+    }>(CLI_QUESTION_CONSTANTS.CREATE_ADMIN, undefined);
     const username = answers?.username.trim();
     const password = answers?.password.trim();
 
     try {
       await this.commonCqrsBus.executeCommand(
-        new CreateUserCommand({ username, password }),
+        new CreateUserCommand({
+          username,
+          password,
+          name: 'Admin',
+          email: 'admin@2026',
+        }),
       );
 
       console.log(`\n✅ Admin created successfully: ${username}`);

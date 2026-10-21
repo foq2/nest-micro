@@ -1,7 +1,7 @@
 import { Question, QuestionSet } from 'nest-commander';
-import { USER_CLI_QUESTION_CONSTANTS } from '../user.constants';
+import { CLI_QUESTION_CONSTANTS } from '../cli.constants';
 
-@QuestionSet({ name: USER_CLI_QUESTION_CONSTANTS.CREATE_ADMIN })
+@QuestionSet({ name: CLI_QUESTION_CONSTANTS.CREATE_ADMIN })
 export class CreateAdminQuestions {
   @Question({
     type: 'input',

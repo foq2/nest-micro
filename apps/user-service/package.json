@@ -22,7 +22,7 @@
     "migration:create": "mikro-orm migration:create",
     "migration:up": "mikro-orm migration:up",
     "migration:down": "mikro-orm migration:down",
-    "cli": "ts-node src/cli.ts"
+    "cli": "node dist/cli.js"
   },
   "dependencies": {
     "@mikro-orm/core": "^7.1.10",

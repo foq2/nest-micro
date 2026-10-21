@@ -1,4 +1,10 @@
-import { Inject, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import {
+  GatewayTimeoutException,
+  Inject,
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+} from '@nestjs/common';
 import { createProxyMiddleware, fixRequestBody } from 'http-proxy-middleware';
 import {
   jwtConfiguration,
@@ -8,6 +14,7 @@ import {
 import { ConfigType } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtAuthMiddleware } from './middleware';
+import { TimeoutError } from 'rxjs';
 
 @Module({
   imports: [
@@ -67,6 +74,8 @@ export class GatewayModule implements NestModule {
     return createProxyMiddleware({
       target: targetUrl,
       changeOrigin: true,
+      proxyTimeout: 5000,
+      timeout: 30000,
       pathRewrite: { [`^/${pathPrefix}`]: '' },
       on: {
         proxyReq: (proxyReq, req) => {
@@ -75,6 +84,11 @@ export class GatewayModule implements NestModule {
             this.microserviceConfig.gatewaySecret,
           );
           fixRequestBody(proxyReq, req);
+        },
+        error: (err, req, res) => {
+          if ('headersSent' in res && !res.headersSent) {
+            throw new GatewayTimeoutException();
+          }
         },
       },
     });

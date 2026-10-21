@@ -5,17 +5,11 @@ import { UserController } from './user.controller';
 import { CreateUserHandler, VerifyUserHandler } from './commands';
 import { GetInfoHandler } from './queries';
 import { UserConsumer } from './user.consumer';
-import { CreateAdminCli, CreateAdminQuestions } from './cli';
 
 @Module({
   imports: [MikroOrmModule.forFeature([UserEntity])],
   controllers: [UserConsumer, UserController],
-  providers: [
-    CreateUserHandler,
-    GetInfoHandler,
-    VerifyUserHandler,
-    CreateAdminCli,
-    CreateAdminQuestions,
-  ],
+  providers: [CreateUserHandler, GetInfoHandler, VerifyUserHandler],
+  exports: [CreateUserHandler],
 })
 export class UserModule {}

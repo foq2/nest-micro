@@ -2,7 +2,7 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { VerifyUserCommand } from './verify-user.command';
 import { UserRepository } from '../../../../data-access';
 import { AppException, ERROR_RESPONSE } from '@repo/nest-common';
-import { verifyHashed } from '../../user.util';
+import { hashData, verifyHashed } from '../../user.util';
 
 @CommandHandler(VerifyUserCommand)
 export class VerifyUserHandler implements ICommandHandler<VerifyUserCommand> {
@@ -13,10 +13,11 @@ export class VerifyUserHandler implements ICommandHandler<VerifyUserCommand> {
     if (!user?.password)
       throw new AppException(ERROR_RESPONSE.INVALID_CREDENTIALS);
 
-    const isPasswordValid = await verifyHashed(user.password, command.password);
+    const isPasswordValid = await verifyHashed(command.password, user.password);
     if (!isPasswordValid)
       throw new AppException(ERROR_RESPONSE.INVALID_CREDENTIALS);
 
     // return token payload data
+    return { id: user.id, name: user.name, email: user.email };
   }
 }

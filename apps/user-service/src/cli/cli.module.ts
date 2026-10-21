@@ -1,17 +1,23 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { validate } from '@repo/nest-common';
 import { UserModule } from '../modules/user';
-import { appConfiguration } from '../config';
+import { MikroOrmModule } from '@mikro-orm/nestjs';
+import config from '../mikro-orm.config';
+import { CommonCqrsModule } from '@repo/nest-core';
+import { CreateAdminCommand } from './commands';
+import { CreateAdminQuestions } from './questions';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      validate,
+      // validate,
       cache: true,
-      load: [appConfiguration],
+      // load: [],
     }),
+    MikroOrmModule.forRoot(config),
+    CommonCqrsModule,
     UserModule,
   ],
+  providers: [CreateAdminCommand, CreateAdminQuestions],
 })
 export class CliModule {}

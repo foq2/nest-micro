@@ -4,7 +4,6 @@ import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConfiguration } from '@repo/nest-common';
 import { ConfigModule, ConfigType } from '@nestjs/config';
-import { Algorithm } from 'jsonwebtoken';
 
 @Module({
   imports: [

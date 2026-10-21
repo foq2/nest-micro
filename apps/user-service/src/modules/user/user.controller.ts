@@ -8,8 +8,10 @@ import {
 import { CreateUserCommand } from './commands';
 import { GetInfoQuery } from './queries';
 import { CommonCqrsBus } from '@repo/nest-core';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('user')
+// @ApiBearerAuth()
 export class UserController {
   constructor(private readonly commonCqrsBus: CommonCqrsBus) {}
 
@@ -25,6 +27,7 @@ export class UserController {
     },
   })
   async getInfo(@User('id') id: string): Promise<GetInfoResponseDto> {
+    console.log('helo fuck');
     return this.commonCqrsBus.executeQuery(new GetInfoQuery(id));
   }
 

@@ -36,6 +36,7 @@
     "USER_SERVICE_URL",
     "GATEWAY_SECRET",
     "REDIS_URL",
-    "DEFAULT_PG_PORT"
+    "DEFAULT_PG_PORT",
+    "JWT_SECRET"
   ]
 }

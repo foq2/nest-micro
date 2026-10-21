@@ -37,6 +37,8 @@ export class JwtAuthMiddleware implements NestMiddleware {
       req.headers['x-user-data'] = Buffer.from(
         JSON.stringify(decoded),
       ).toString('base64');
+
+      next();
     } catch {
       throw new AppException(ERROR_RESPONSE.INTERNAL_SERVER_ERROR);
     }
