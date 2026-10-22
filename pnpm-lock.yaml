@@ -202,9 +202,6 @@ importers:
       '@mikro-orm/core':
         specifier: ^7.1.10
         version: 7.1.10
-      '@mikro-orm/decorators':
-        specifier: 7.1.10
-        version: 7.1.10(@mikro-orm/core@7.1.10)(reflect-metadata@0.2.2)
       '@mikro-orm/migrations':
         specifier: ^7.1.10
         version: 7.1.10(@mikro-orm/core@7.1.10)
@@ -403,9 +400,6 @@ importers:
       '@mikro-orm/core':
         specifier: 7.1.10
         version: 7.1.10
-      '@mikro-orm/decorators':
-        specifier: 7.1.10
-        version: 7.1.10(@mikro-orm/core@7.1.10)(reflect-metadata@0.2.2)
       '@mikro-orm/postgresql':
         specifier: 7.1.10
         version: 7.1.10(@mikro-orm/core@7.1.10)
@@ -1353,16 +1347,6 @@ packages:
       dataloader: 2.2.3
     peerDependenciesMeta:
       dataloader:
-        optional: true
-
-  '@mikro-orm/decorators@7.1.10':
-    resolution: {integrity: sha512-JorwgnO4oK1EW0vXxIZhLvFdoxUtLl7C9mShFLgJAQZUCyxtToSry6hH5CO5svsahC/CBkCBdhTxhjEJArNfwQ==}
-    engines: {node: '>= 22.17.0'}
-    peerDependencies:
-      '@mikro-orm/core': 7.1.10
-      reflect-metadata: ^0.1.0 || ^0.2.0
-    peerDependenciesMeta:
-      reflect-metadata:
         optional: true
 
   '@mikro-orm/migrations@7.1.10':
@@ -5350,12 +5334,6 @@ snapshots:
       - dataloader
 
   '@mikro-orm/core@7.1.10': {}
-
-  '@mikro-orm/decorators@7.1.10(@mikro-orm/core@7.1.10)(reflect-metadata@0.2.2)':
-    dependencies:
-      '@mikro-orm/core': 7.1.10
-    optionalDependencies:
-      reflect-metadata: 0.2.2
 
   '@mikro-orm/migrations@7.1.10(@mikro-orm/core@7.1.10)':
     dependencies:

@@ -1,45 +1,39 @@
-import {
-  Entity,
-  Filter,
-  PrimaryKey,
-  Property,
-} from '@mikro-orm/decorators/legacy';
-import { v4 as uuid } from 'uuid';
-import { HiddenProps, OptionalProps } from '@mikro-orm/core';
+import { defineEntity, p } from '@mikro-orm/core';
 
-@Filter({
-  name: 'softDelete',
-  cond: { deletedAt: null },
-  default: true,
-})
-@Entity({ abstract: true })
-export abstract class BaseEntity<T = any> {
-  [OptionalProps]?: 'id' | 'createdAt' | 'updatedAt' | 'deletedAt';
-  [HiddenProps]?: 'deletedAt';
+export const BaseSchema = defineEntity({
+  name: 'BaseEntity',
+  abstract: true,
+  filters: {
+    softDelete: {
+      name: 'softDelete',
+      cond: { deletedAt: null },
+      default: true,
+    },
+  },
+  properties: {
+    id: p.uuid().primary(),
+    createdAt: p
+      .datetime()
+      .onCreate(() => new Date())
+      .defaultRaw('now()'),
+    updatedAt: p
+      .datetime()
+      .onCreate(() => new Date())
+      .onUpdate(() => new Date())
+      .defaultRaw('now()'),
+    deletedAt: p.datetime().nullable().hidden(),
+  },
+});
 
-  constructor(partial?: Partial<T>) {
-    if (partial) {
-      Object.assign(this, partial);
-    }
-  }
-
-  @PrimaryKey({ type: 'uuid' })
-  id: string = uuid();
-
-  @Property({
-    type: 'timestamptz',
-    onCreate: () => new Date(),
-    defaultRaw: 'now()',
-  })
-  createdAt: Date = new Date();
-
-  @Property({
-    type: 'timestamptz',
-    onUpdate: () => new Date(),
-    defaultRaw: 'now(',
-  })
-  updatedAt: Date = new Date();
-
-  @Property({ type: 'timestamptz', nullable: true, hidden: true })
-  deletedAt?: Date;
+export abstract class BaseEntity<T = any> extends BaseSchema.class {
+  // [OptionalProps]?: 'id' | 'createdAt' | 'updatedAt' | 'deletedAt';
+  // [HiddenProps]?: 'deletedAt';
+  // constructor(partial?: Partial<T>) {
+  //   super();
+  //   if (partial) {
+  //     Object.assign(this, partial);
+  //   }
+  // }
 }
+
+BaseSchema.setClass(BaseEntity);

@@ -1,21 +1,19 @@
-import { Entity, Property } from '@mikro-orm/decorators/legacy';
-import { BaseEntity } from '@repo/nest-core';
+import { BaseSchema } from '@repo/nest-core';
 import { UserRepository } from './user.repository';
-import { EntityRepositoryType, Hidden } from '@mikro-orm/core';
+import { defineEntity, p } from '@mikro-orm/core';
 
-@Entity({ tableName: 'users', repository: () => UserRepository })
-export class UserEntity extends BaseEntity {
-  [EntityRepositoryType]?: UserRepository;
+export const UserSchema = defineEntity({
+  name: 'User',
+  tableName: 'users',
+  extends: BaseSchema,
+  repository: () => UserRepository,
+  properties: {
+    name: p.string(),
+    email: p.string(),
+    username: p.string(),
+    password: p.string().hidden(),
+  },
+});
 
-  @Property({ type: 'string' })
-  name: string;
-
-  @Property({ type: 'string' })
-  email: string;
-
-  @Property({ type: 'string' })
-  username: string;
-
-  @Property({ type: 'string', hidden: true })
-  password: Hidden<string>;
-}
+export class UserEntity extends UserSchema.class {}
+UserSchema.setClass(UserEntity);
