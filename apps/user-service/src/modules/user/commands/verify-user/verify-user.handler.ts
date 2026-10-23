@@ -14,22 +14,21 @@ export class VerifyUserHandler implements ICommandHandler<VerifyUserCommand> {
   constructor(private readonly userRepo: UserRepository) {}
 
   async execute(command: VerifyUserCommand): Promise<VerifyUserResponseDto> {
-    throw new AppException(ERROR_RESPONSE.INTERNAL_SERVER_ERROR);
-    // const user = await this.userRepo.findOne({ username: command.username });
-    // if (!user?.password)
-    //   throw new AppException(ERROR_RESPONSE.INVALID_CREDENTIALS);
-    //
-    // const isPasswordValid = await verifyHashed(command.password, user.password);
-    // if (!isPasswordValid)
-    //   throw new AppException(ERROR_RESPONSE.INVALID_CREDENTIALS);
-    //
-    // // return token payload data
-    // return plainToInstance(
-    //   VerifyUserResponseDto,
-    //   { ...user, userId: user.id },
-    //   {
-    //     excludeExtraneousValues: true,
-    //   },
-    // );
+    const user = await this.userRepo.findOne({ username: command.username });
+    if (!user?.password)
+      throw new AppException(ERROR_RESPONSE.INVALID_CREDENTIALS);
+
+    const isPasswordValid = await verifyHashed(command.password, user.password);
+    if (!isPasswordValid)
+      throw new AppException(ERROR_RESPONSE.INVALID_CREDENTIALS);
+
+    // return token payload data
+    return plainToInstance(
+      VerifyUserResponseDto,
+      { ...user, userId: user.id },
+      {
+        excludeExtraneousValues: true,
+      },
+    );
   }
 }

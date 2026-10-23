@@ -11,7 +11,7 @@ import { CommonCqrsBus } from '@repo/nest-core';
 import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('user')
-// @ApiBearerAuth()
+@ApiBearerAuth()
 export class UserController {
   constructor(private readonly commonCqrsBus: CommonCqrsBus) {}
 
