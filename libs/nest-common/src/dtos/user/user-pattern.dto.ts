@@ -9,4 +9,15 @@ export class VerifyUserPayloadDto {
   password: string;
 }
 
+export class VerifyUserResponseDto {
+  @DtoField()
+  userId: string;
+
+  @DtoField()
+  name: string;
+
+  @DtoField()
+  email: string;
+}
+
 // Event Pattern

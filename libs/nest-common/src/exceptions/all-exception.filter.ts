@@ -58,11 +58,15 @@ export class AllExceptionFilter implements ExceptionFilter {
         context: 'AllExceptionFilter.catch',
       });
     } else {
-      this.logger.error({
-        context: `AllExceptionFilter.catch`,
-        error: exception,
-        message: 'A non-http error being throw somewhere',
-      });
+      // const errMessage = (exception as any)?.message || String(exception);
+      // const errStack = (exception as any)?.stack || new Error().stack;
+      this.logger.error(
+        `A non-http error being throw somewhere, ${(exception as any)?.message}`,
+        {
+          error: (exception as any)?.stack,
+          context: `AllExceptionFilter.catch`,
+        },
+      );
 
       const rpcError = exception as any;
       _.assign(errorData, {

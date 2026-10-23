@@ -12,6 +12,7 @@ import {
   TokenPayload,
   UserMessagePattern,
   UserRequestPayload,
+  VerifyUserResponseDto,
 } from '@repo/nest-common';
 import { ClientProxy, Transport } from '@nestjs/microservices';
 import { JwtService } from '@nestjs/jwt';
@@ -41,16 +42,25 @@ export class AuthService {
 
   async login(body: LoginBodyDto): Promise<LoginResponseDto> {
     const user = await callMs(
-      this.userClientTcp.send(UserMessagePattern.VerifyUser, body),
+      this.userClientTcp.send<VerifyUserResponseDto>(
+        UserMessagePattern.VerifyUser,
+        body,
+      ),
     );
 
     return this.generateUserToken(user);
   }
 
-  async logout(user: UserRequestPayload) {
-    const { id, jti } = user;
+  async logout(user: UserRequestPayload): Promise<LogoutResponseDto> {
+    const { userId, jti } = user;
 
-    await this.redisService.delete(this.redisService.getUserTokenKey(id, jti));
+    const result = await this.redisService.delete(
+      this.redisService.getUserTokenKey(userId, jti),
+    );
+
+    if (!result) {
+      throw new AppException(ERROR_RESPONSE.INTERNAL_SERVER_ERROR);
+    }
 
     return new LogoutResponseDto();
   }
@@ -70,10 +80,13 @@ export class AuthService {
     }
 
     const { userId, jti } = tokenPayload;
-    const isTokenValid = this.redisService.get(
+    const isTokenValid = await this.redisService.get(
       this.redisService.getUserTokenKey(userId, jti),
     );
-    if (!isTokenValid) throw new AppException(ERROR_RESPONSE.UNAUTHORIZED);
+
+    if (!isTokenValid) {
+      throw new AppException(ERROR_RESPONSE.UNAUTHORIZED);
+    }
 
     const accessToken = await this.generateJwtToken(
       tokenPayload,
@@ -84,7 +97,7 @@ export class AuthService {
     return { accessToken };
   }
 
-  private async generateUserToken(user: any) {
+  private async generateUserToken(user: VerifyUserResponseDto) {
     const jti = uuid();
     const tokenPayload = { ...user, jti };
 
@@ -102,10 +115,11 @@ export class AuthService {
     ]);
 
     await this.redisService.set(
-      this.redisService.getUserTokenKey(user.id, jti),
+      this.redisService.getUserTokenKey(user.userId, jti),
       1,
       parseToSeconds(this.jwtConfig.refreshTokenExpiresIn),
     );
+
     return { accessToken, refreshToken };
   }
 
@@ -113,8 +127,14 @@ export class AuthService {
     payload: TokenPayload,
     type: JwtTokenType,
     expiresIn: number,
-  ) {
-    const tokenPayload: TokenPayload = { ...payload, type };
+  ): Promise<string> {
+    const tokenPayload: TokenPayload = {
+      jti: payload.jti,
+      userId: payload.userId,
+      name: payload.name,
+      email: payload.email,
+      type,
+    };
 
     return this.jwtService.signAsync(tokenPayload, { expiresIn });
   }

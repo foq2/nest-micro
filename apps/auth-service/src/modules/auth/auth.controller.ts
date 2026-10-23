@@ -52,7 +52,7 @@ export class AuthController {
   }
 
   @Post('refreshToken')
-  @ApiBearerAuth()
+  @Public()
   @ApiDocument({
     operation: {
       operationId: 'refreshToken',

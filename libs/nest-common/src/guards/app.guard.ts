@@ -42,7 +42,6 @@ export class AppGuard implements CanActivate {
       !gatewaySecret ||
       gatewaySecret !== this.microserviceConfig.gatewaySecret
     ) {
-      console.log('sai pass');
       throw new AppException(ERROR_RESPONSE.INVALID_CREDENTIALS);
     }
 

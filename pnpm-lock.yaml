@@ -241,6 +241,12 @@ importers:
       bcryptjs:
         specifier: ^3.0.3
         version: 3.0.3
+      class-transformer:
+        specifier: ^0.5.1
+        version: 0.5.1
+      class-validator:
+        specifier: ^0.15.1
+        version: 0.15.1
       nest-commander:
         specifier: ^3.21.0
         version: 3.21.0(@nestjs/common@11.0.1(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.0.1(@nestjs/common@11.0.1(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/microservices@11.0.1)(@nestjs/platform-express@11.0.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@types/inquirer@8.2.13)(@types/node@25.9.1)(typescript@5.9.3)

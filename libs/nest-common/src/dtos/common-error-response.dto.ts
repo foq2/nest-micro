@@ -13,8 +13,8 @@ export class CommonErrorResponseDto {
   @DtoField()
   errorCode: string;
 
-  @DtoField()
-  errorService?: string;
+  // @DtoField()
+  // errorService?: string;
 
   @DtoField()
   message: string;

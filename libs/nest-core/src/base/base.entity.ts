@@ -1,4 +1,5 @@
-import { defineEntity, p } from '@mikro-orm/core';
+import { defineEntity, p } from '@mikro-orm/postgresql';
+import { v4 as uuid } from 'uuid';
 
 export const BaseSchema = defineEntity({
   name: 'BaseEntity',
@@ -11,7 +12,10 @@ export const BaseSchema = defineEntity({
     },
   },
   properties: {
-    id: p.uuid().primary(),
+    id: p
+      .uuid()
+      .primary()
+      .onCreate(() => uuid()),
     createdAt: p
       .datetime()
       .onCreate(() => new Date())
@@ -25,15 +29,6 @@ export const BaseSchema = defineEntity({
   },
 });
 
-export abstract class BaseEntity<T = any> extends BaseSchema.class {
-  // [OptionalProps]?: 'id' | 'createdAt' | 'updatedAt' | 'deletedAt';
-  // [HiddenProps]?: 'deletedAt';
-  // constructor(partial?: Partial<T>) {
-  //   super();
-  //   if (partial) {
-  //     Object.assign(this, partial);
-  //   }
-  // }
-}
+export abstract class BaseEntity<T = any> extends BaseSchema.class {}
 
 BaseSchema.setClass(BaseEntity);

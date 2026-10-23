@@ -26,8 +26,7 @@ export class UserController {
       type: GetInfoResponseDto,
     },
   })
-  async getInfo(@User('id') id: string): Promise<GetInfoResponseDto> {
-    console.log('helo fuck');
+  async getInfo(@User('userId') id: string): Promise<GetInfoResponseDto> {
     return this.commonCqrsBus.executeQuery(new GetInfoQuery(id));
   }
 

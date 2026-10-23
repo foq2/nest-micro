@@ -24,6 +24,8 @@ import { ConfigModule, ConfigType } from '@nestjs/config';
                 }
               : undefined,
           level: config.logLevel,
+          customLogLevel: (req, res, err) =>
+            res.statusCode >= 400 || err ? 'silent' : 'info',
           autoLogging: true,
         },
       }),

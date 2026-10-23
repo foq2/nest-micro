@@ -44,6 +44,7 @@ export class GatewayModule implements NestModule {
       ':service/swagger/:path',
       ':service/api',
       'auth-service/api/auth/login',
+      'auth-service/api/auth/refreshToken',
     ];
 
     consumer

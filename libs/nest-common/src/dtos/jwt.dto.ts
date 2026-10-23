@@ -1,14 +1,14 @@
 import { JwtTokenType } from '../enums';
 
-export class TokenPayload {
-  jti: string;
+export class UserRequestPayload {
   userId: string;
-  type: JwtTokenType;
-  iat?: number;
-  exp?: number;
+  jti: string;
 }
 
-export class UserRequestPayload {
-  id: string;
-  jti: string;
+export class TokenPayload extends UserRequestPayload {
+  type?: JwtTokenType;
+  name: string;
+  email: string;
+  iat?: number;
+  exp?: number;
 }
